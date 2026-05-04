@@ -2,8 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:       # allow manual trigger from GitHub UI
+    branches: [master]
+  workflow_dispatch: # allow manual trigger from GitHub UI
 
 # Sets permissions for the GITHUB_TOKEN to allow GitHub Pages deployment
 permissions:
@@ -13,7 +13,7 @@ permissions:
 
 # Only one concurrent deployment; cancel in-flight runs on new push
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: true
 
 defaults:
@@ -24,7 +24,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: "0.161.1"
+      HUGO_VERSION: '0.161.1'
     steps:
       - name: Install Hugo
         run: |
@@ -34,8 +34,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: recursive   # fetch PaperMod theme
-          fetch-depth: 0          # full history for .GitInfo and .Lastmod
+          submodules: recursive # fetch PaperMod theme
+          fetch-depth: 0 # full history for .GitInfo and .Lastmod
 
       - name: Setup Pages
         id: pages
