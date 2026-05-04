@@ -3,11 +3,10 @@ $posts "Date" "desc" -}} {{- $featuredSlice := where $sorted "Params.featured"
 true -}} {{- $featured := index $featuredSlice 0 -}} {{- if not $featured }}{{-
 $featured = index $sorted 0 -}}{{- end -}} {{- $nonFeatured := where $sorted
 "Params.featured" "!=" true -}} {{- $recent := first 8 $nonFeatured -}} {{-
-$totalPosts := len $posts -}}
-{{- $currentYear := now.Year -}}
-{{- $postsThisYear := where $posts "Date.Year" $currentYear -}}
-{{- $wordsThisYear := 0 -}}
-{{- range $postsThisYear -}}{{- $wordsThisYear = add $wordsThisYear .WordCount -}}{{- end -}}
+$totalPosts := len $posts -}} {{- $currentYear := now.Year -}} {{-
+$postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
+:= 0 -}} {{- range $postsThisYear -}}{{- $wordsThisYear = add $wordsThisYear
+.WordCount -}}{{- end -}}
 <!doctype html>
 <html lang="{{ site.Language }}">
   <head>
@@ -536,6 +535,199 @@ $totalPosts := len $posts -}}
         color: var(--ink);
       }
 
+      /* ── Side projects ── */
+      .projects-section {
+        margin-top: 56px;
+      }
+
+      .section-h {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 12px;
+        margin-bottom: 14px;
+      }
+
+      .section-h h3 {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+
+      .section-h h3 .count {
+        font-family: 'Geist Mono', monospace;
+        font-weight: 400;
+        color: var(--quiet);
+        margin-left: 8px;
+      }
+
+      .section-h-caption {
+        font-family: 'Geist Mono', monospace;
+        font-size: 11px;
+        color: var(--quiet);
+      }
+
+      ul.projects {
+        list-style: none;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      @media (max-width: 700px) {
+        ul.projects {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      a.project {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        padding: 18px 20px 16px;
+        background: var(--paper);
+        color: inherit;
+        transition:
+          border-color 0.2s,
+          transform 0.2s,
+          background 0.2s;
+      }
+
+      a.project:hover {
+        border-color: #cfcfcf;
+        transform: translateY(-2px);
+        background: linear-gradient(180deg, var(--rule-2) 0%, var(--paper) 70%);
+      }
+
+      a.project:focus-visible {
+        outline: 2px solid var(--ink);
+        outline-offset: 2px;
+      }
+
+      .project .head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .project .name {
+        font-family: 'Newsreader', Georgia, serif;
+        font-size: 19px;
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: -0.005em;
+      }
+
+      .project .name .ext {
+        display: inline-block;
+        margin-left: 4px;
+        color: var(--quiet);
+        transition:
+          color 0.2s,
+          transform 0.2s;
+      }
+
+      a.project:hover .name .ext {
+        color: var(--ink);
+        transform: translate(2px, -2px);
+      }
+
+      .project .status {
+        font-family: 'Geist Mono', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      .project .pip {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+
+      a.project[data-status='live'] .pip {
+        background: #16a34a;
+        box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+      }
+
+      a.project[data-status='beta'] .pip {
+        background: #d97706;
+        box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.14);
+      }
+
+      a.project[data-status='wip'] .pip {
+        background: var(--ink);
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+        animation: livepulse 2s ease-in-out infinite;
+      }
+
+      a.project[data-status='shelved'] .pip {
+        background: var(--quiet);
+      }
+
+      @keyframes livepulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.45;
+        }
+      }
+
+      .project .dek {
+        font-size: 13.5px;
+        line-height: 1.5;
+        color: var(--muted);
+        text-wrap: pretty;
+      }
+
+      .project .foot {
+        margin-top: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 4px;
+      }
+
+      .project .stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        list-style: none;
+      }
+
+      .project .stack span {
+        font-family: 'Geist Mono', monospace;
+        font-size: 10px;
+        color: var(--quiet);
+        border: 1px solid var(--rule);
+        padding: 2px 7px;
+        border-radius: 999px;
+      }
+
+      .project .year {
+        font-family: 'Geist Mono', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--quiet);
+        white-space: nowrap;
+      }
+
       /* ── Footer ── */
       .site-footer {
         border-top: 1px solid var(--rule);
@@ -848,6 +1040,52 @@ $totalPosts := len $posts -}}
           <a class="all-posts-link" href="/posts/"
             >Browse all {{ $totalPosts }} posts →</a
           >
+
+          <!-- Side projects -->
+          <section class="projects-section" aria-labelledby="projects-heading">
+            <div class="section-h">
+              <h3 id="projects-heading">
+                Side projects
+                <span class="count">— currently 1</span>
+              </h3>
+              <span class="section-h-caption">tinkering hours / week</span>
+            </div>
+            <ul class="projects">
+              <li>
+                <a
+                  class="project"
+                  href="https://www.motiondeck.dev/en"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-status="live"
+                >
+                  <div class="head">
+                    <span class="name"
+                      >MotionDeck<span class="ext" aria-hidden="true"
+                        >↗</span
+                      ></span
+                    >
+                    <span class="status"
+                      ><span class="pip" aria-hidden="true"></span>live</span
+                    >
+                  </div>
+                  <p class="dek">
+                    An animation playground to preview, test, and generate
+                    integration code for Rive and Lottie files — drop in a file,
+                    tweak the state machine, copy the snippet.
+                  </p>
+                  <div class="foot">
+                    <ul class="stack">
+                      <li><span>TypeScript</span></li>
+                      <li><span>Rive</span></li>
+                      <li><span>Lottie</span></li>
+                    </ul>
+                    <span class="year">2026</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </section>
         </section>
       </div>
     </div>
