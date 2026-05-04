@@ -1,0 +1,121 @@
+baseURL: "https://hiepnh610.github.io/"
+locale: "en-us"
+title: "Hiep Nguyen"
+theme: "PaperMod"
+paginate: 10
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+params:
+  env: production
+  title: "Hiep Nguyen"
+  description: "Personal blog — thoughts on software engineering and things I'm building."
+  author: "Hiep Nguyen"
+  DateFormat: "January 2, 2006"
+
+  defaultTheme: auto          # auto | light | dark
+  disableThemeToggle: false
+
+  ShowReadingTime: true
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: false
+  ShowRssButtonInSectionTermList: true
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: true
+  tocopen: false
+
+  assets:
+    favicon: "/images/favicon.svg"
+
+  label:
+    text: "Hiep Nguyen"
+    icon: "/images/favicon.svg"
+
+  homeInfoParams:
+    Title: "Hi, I'm Hiep"
+    Content: >
+      I write about software engineering, things I'm building,
+      and lessons learned along the way.
+
+  socialIcons:
+    - name: github
+      url: "https://github.com/hiepnh610"
+
+  cover:
+    hidden: true
+    hiddenInList: true
+    hiddenInSingle: true
+
+  # Allow readers to suggest edits via GitHub
+  editPost:
+    URL: "https://github.com/hiepnh610/hiepnh610.github.io/blob/main/content"
+    Text: "Suggest Changes"
+    appendFilePath: true
+
+  # Full-text search (Fuse.js) — powered by outputs.home JSON below
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 2
+    limit: 10
+    keys: ["title", "permalink", "summary", "content"]
+
+menu:
+  main:
+    - identifier: posts
+      name: Posts
+      url: /posts/
+      weight: 10
+    - identifier: tags
+      name: Tags
+      url: /tags/
+      weight: 20
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 30
+    - identifier: search
+      name: Search
+      url: /search/
+      weight: 40
+
+# JSON output enables Fuse.js search
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true           # allow raw HTML in Markdown
+  highlight:
+    noClasses: false         # use external CSS (customisable)
+    anchorLineNos: true
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+    style: dracula
+
+taxonomies:
+  tag: tags
+  category: categories
