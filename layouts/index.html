@@ -28,6 +28,10 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
+      rel="stylesheet"
+    />
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"
@@ -148,6 +152,24 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
         background: var(--rule-2);
       }
 
+      .icon-ms {
+        font-family: 'Material Symbols Outlined';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 1.125em;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        vertical-align: -0.2em;
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+        -webkit-font-smoothing: antialiased;
+      }
+
       .search-btn {
         font-family: 'Geist Mono', 'Courier New', monospace;
         font-size: 12px;
@@ -157,9 +179,18 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
         border-radius: 6px;
         padding: 5px 32px;
         cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
         transition:
           border-color 150ms,
           color 150ms;
+      }
+
+      .search-btn .icon-ms {
+        font-size: 16px;
+        vertical-align: middle;
       }
 
       .search-btn:hover {
@@ -180,7 +211,15 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
         padding: 5px 8px;
         cursor: pointer;
         line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         transition: color 150ms;
+      }
+
+      .theme-toggle .icon-ms {
+        font-size: 18px;
+        vertical-align: middle;
       }
 
       .theme-toggle:hover {
@@ -517,7 +556,9 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
 
       /* ── All-posts link ── */
       .all-posts-link {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         margin-top: 24px;
         font-family: 'Geist Mono', monospace;
         font-size: 12px;
@@ -528,6 +569,10 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
         transition:
           background 150ms,
           color 150ms;
+      }
+
+      .all-posts-link .icon-ms {
+        font-size: 16px;
       }
 
       .all-posts-link:hover {
@@ -627,6 +672,9 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
         display: inline-block;
         margin-left: 4px;
         color: var(--quiet);
+        font-size: 17px;
+        line-height: 1;
+        vertical-align: 0.08em;
         transition:
           color 0.2s,
           transform 0.2s;
@@ -907,6 +955,7 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
           </ul>
         </nav>
         <button class="search-btn" id="search-btn" aria-label="Search (⌘K)">
+          <span class="icon-ms" aria-hidden="true">search</span>
           Search ⌘K
         </button>
         <div class="topbar-right">
@@ -915,7 +964,9 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
             id="theme-toggle"
             aria-label="Toggle dark mode"
           >
-            ☾
+            <span class="icon-ms theme-toggle-icon" aria-hidden="true"
+              >dark_mode</span
+            >
           </button>
         </div>
       </div>
@@ -938,11 +989,6 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
           </p>
 
           <ul class="socials" aria-label="Social links">
-            <li>
-              <a href="https://github.com/hiepnh610" rel="noopener noreferrer"
-                >GitHub ↗</a
-              >
-            </li>
             <li><a href="mailto:hi@hoanghiep.dev">hi@hoanghiep.dev</a></li>
           </ul>
 
@@ -981,7 +1027,9 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
             </p>
             <span class="featured-read">
               <u>Read the post</u>
-              <span class="featured-arrow" aria-hidden="true">→</span>
+              <span class="featured-arrow icon-ms" aria-hidden="true"
+                >arrow_forward</span
+              >
             </span>
           </a>
           {{- end }}
@@ -1037,9 +1085,10 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
           </ul>
 
           <!-- Browse all link -->
-          <a class="all-posts-link" href="/posts/"
-            >Browse all {{ $totalPosts }} posts →</a
-          >
+          <a class="all-posts-link" href="/posts/">
+            Browse all {{ $totalPosts }} posts
+            <span class="icon-ms" aria-hidden="true">arrow_forward</span>
+          </a>
 
           <!-- Side projects -->
           <section class="projects-section" aria-labelledby="projects-heading">
@@ -1061,8 +1110,10 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
                 >
                   <div class="head">
                     <span class="name"
-                      >MotionDeck<span class="ext" aria-hidden="true"
-                        >↗</span
+                      >MotionDeck<span
+                        class="ext icon-ms"
+                        aria-hidden="true"
+                        >north_east</span
                       ></span
                     >
                     <span class="status"
@@ -1271,7 +1322,9 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
         }
 
         function updateIcon() {
-          btn.textContent = isDark() ? '☀' : '☾';
+          var icon = btn.querySelector('.theme-toggle-icon');
+          if (icon)
+            icon.textContent = isDark() ? 'light_mode' : 'dark_mode';
           btn.setAttribute(
             'aria-label',
             isDark() ? 'Switch to light mode' : 'Switch to dark mode',

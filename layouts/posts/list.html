@@ -16,6 +16,10 @@
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
+      rel="stylesheet"
+    />
     <script defer src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
     <script>
       (function () {
@@ -133,6 +137,24 @@
         background: var(--rule-2);
       }
 
+      .icon-ms {
+        font-family: 'Material Symbols Outlined';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 1.125em;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        vertical-align: -0.2em;
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+        -webkit-font-smoothing: antialiased;
+      }
+
       .search-btn {
         font-family: 'Geist Mono', 'Courier New', monospace;
         font-size: 12px;
@@ -142,9 +164,18 @@
         border-radius: 6px;
         padding: 5px 32px;
         cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
         transition:
           border-color 150ms,
           color 150ms;
+      }
+
+      .search-btn .icon-ms {
+        font-size: 16px;
+        vertical-align: middle;
       }
 
       .search-btn:hover {
@@ -165,7 +196,15 @@
         padding: 5px 8px;
         cursor: pointer;
         line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         transition: color 150ms;
+      }
+
+      .theme-toggle .icon-ms {
+        font-size: 18px;
+        vertical-align: middle;
       }
 
       .theme-toggle:hover {
@@ -513,6 +552,7 @@
           </ul>
         </nav>
         <button class="search-btn" id="search-btn" aria-label="Search (⌘K)">
+          <span class="icon-ms" aria-hidden="true">search</span>
           Search ⌘K
         </button>
         <div class="topbar-right">
@@ -521,7 +561,9 @@
             id="theme-toggle"
             aria-label="Toggle dark mode"
           >
-            ☾
+            <span class="icon-ms theme-toggle-icon" aria-hidden="true"
+              >dark_mode</span
+            >
           </button>
         </div>
       </div>
@@ -753,7 +795,9 @@
         }
 
         function updateIcon() {
-          btn.textContent = isDark() ? '☀' : '☾';
+          var icon = btn.querySelector('.theme-toggle-icon');
+          if (icon)
+            icon.textContent = isDark() ? 'light_mode' : 'dark_mode';
           btn.setAttribute(
             'aria-label',
             isDark() ? 'Switch to light mode' : 'Switch to dark mode',

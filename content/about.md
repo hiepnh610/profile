@@ -1,5 +1,5 @@
 ---
-title: "About"
+title: 'About'
 date: 2026-05-04
 draft: false
 hidemeta: true
@@ -22,7 +22,3 @@ I write about things I'm building, problems I've solved, and ideas worth sharing
 - Full-stack web development
 - Systems design and architecture
 - Developer tooling
-
-## Get in Touch
-
-- GitHub: [hiepnh610](https://github.com/hiepnh610)
