@@ -35,7 +35,7 @@ The HTML files in this bundle are **design references** — prototypes showing i
 
 1. **Headline (`h1.who`)** — "I'm Hiep, _a software engineer in Hanoi._" Newsreader serif, weight 500, italic on the second clause (muted color). `clamp(34px, 3.6vw, 44px)`, lh 1.05, ls -0.015em.
 2. **Bio paragraph** — 15px Geist, lh 1.55. Second sentence muted, with one inline link "Hugo + Cloudflare" (1px border-bottom, darkens to ink on hover).
-3. **Socials** — pill chips, `1px solid rule`, radius 999px, padding 6×11, gap 6px. Items: GitHub, hi@hiepnguyen.dev. Hover inverts to ink + white text + 1px lift.
+3. **Socials** — pill chips, `1px solid rule`, radius 999px, padding 6×11, gap 6px. Items: GitHub, hi@hoanghiep.dev. Hover inverts to ink + white text + 1px lift.
 4. **Stats grid** — bordered top, 2-col grid. Three entries (`<dt>` mono 10px uppercase 0.1em quiet + `<dd>` 14px weight 500): Posts 142 · Since 2026 · Words this year 38,210.
 
 ### Feed (`<section class="feed">`)
