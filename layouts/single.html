@@ -1073,6 +1073,82 @@
         margin: 0;
       }
     </style>
+    {{/* ── Open Graph / Social ── */}}
+    {{- $ogDesc := .Description | default (.Summary | plainify | truncate 200) -}}
+    <meta property="og:type" content="{{ if eq .Section "posts" }}article{{ else }}website{{ end }}" />
+    <meta property="og:url" content="{{ .Permalink }}" />
+    <meta property="og:title" content="{{ .Title }} · {{ site.Title }}" />
+    <meta property="og:description" content="{{ $ogDesc }}" />
+    <meta property="og:image" content="{{ "/images/og-default.jpg" | absURL }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ .Title }} · {{ site.Title }}" />
+    <meta name="twitter:description" content="{{ $ogDesc }}" />
+    <meta name="twitter:image" content="{{ "/images/og-default.jpg" | absURL }}" />
+    {{/* ── Structured Data ── */}}
+    {{ if eq .Section "posts" -}}
+    {{- $desc := .Summary | plainify | truncate 160 -}}
+    {{- with .Description -}}{{- $desc = . -}}{{- end -}}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "@id": "{{ .Permalink }}#article",
+      "headline": "{{ .Title }}",
+      "description": "{{ $desc }}",
+      "url": "{{ .Permalink }}",
+      "datePublished": "{{ .Date.Format `2006-01-02T15:04:05Z07:00` }}",
+      "dateModified": "{{ .Lastmod.Format `2006-01-02T15:04:05Z07:00` }}",
+      "wordCount": {{ .WordCount }},
+      "inLanguage": "en",
+      "keywords": [{{ range $i, $t := .Params.tags }}{{ if $i }},{{ end }}"{{ $t }}"{{ end }}],
+      "author": {
+        "@type": "Person",
+        "@id": "{{ site.BaseURL }}#person",
+        "name": "{{ site.Params.author }}"
+      },
+      "publisher": {
+        "@type": "Person",
+        "@id": "{{ site.BaseURL }}#person",
+        "name": "{{ site.Params.author }}"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ .Permalink }}"
+      },
+      "isPartOf": {
+        "@type": "Blog",
+        "@id": "{{ site.BaseURL }}posts/",
+        "name": "{{ site.Params.author }} — Writing"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "{{ site.BaseURL }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Writing",
+          "item": "{{ site.BaseURL }}posts/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "{{ .Title }}",
+          "item": "{{ .Permalink }}"
+        }
+      ]
+    }
+    </script>
+    {{- end }}
   </head>
   <body>
     <!-- Reading progress bar -->

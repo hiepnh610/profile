@@ -1,4 +1,4 @@
-baseURL: "https://hiepnh610.github.io/"
+baseURL: "https://hoanghiep.dev/"
 locale: "en-us"
 title: "Hiep Nguyen"
 theme: "PaperMod"
@@ -63,7 +63,7 @@ params:
 
   # Allow readers to suggest edits via GitHub
   editPost:
-    URL: "https://github.com/hiepnh610/hiepnh610.github.io/blob/main/content"
+    URL: "https://github.com/hiepnh610/profile/blob/main/content"
     Text: "Suggest Changes"
     appendFilePath: true
 
