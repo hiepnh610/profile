@@ -1522,5 +1522,120 @@
       }());
     </script>
 
+    <script>
+      /* GA tracking: scroll depth + click events */
+      (function () {
+        if (typeof gtag !== 'function') return;
+
+        var postTitle = document.title;
+
+        /* --- Scroll depth --- */
+        var milestones = new Set();
+        var thresholds = [25, 50, 75, 100];
+
+        function onScroll() {
+          var total = document.documentElement.scrollHeight - window.innerHeight;
+          if (total <= 0) return;
+          var pct = Math.floor(window.scrollY / total * 100);
+          thresholds.forEach(function (t) {
+            if (pct >= t && !milestones.has(t)) {
+              milestones.add(t);
+              gtag('event', 'scroll_depth', { percent: t, post_title: postTitle });
+            }
+          });
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        /* --- Reading completion (bottom of .post-content) --- */
+        var postContent = document.querySelector('.post-content');
+        if (postContent && 'IntersectionObserver' in window) {
+          var lastChild = postContent.lastElementChild;
+          if (lastChild) {
+            var readObserver = new IntersectionObserver(function (entries) {
+              if (entries[0].isIntersecting) {
+                gtag('event', 'reading_complete', { post_title: postTitle });
+                readObserver.disconnect();
+              }
+            }, { threshold: 0.5 });
+            readObserver.observe(lastChild);
+          }
+        }
+
+        /* --- Event delegation for all click events --- */
+        document.addEventListener('click', function (e) {
+          var target = e.target;
+
+          /* Share: copy link button */
+          if (target.id === 'copy-link' || target.closest('#copy-link')) {
+            gtag('event', 'share_click', { method: 'copy_link', post_title: postTitle });
+            return;
+          }
+
+          var anchor = target.closest('a');
+          if (!anchor) return;
+          var href = anchor.href || '';
+
+          /* Share: email pill */
+          if (href.startsWith('mailto:') && anchor.closest('.share-pill, .share-pills')) {
+            gtag('event', 'share_click', { method: 'email', post_title: postTitle });
+            return;
+          }
+
+          /* Prev/Next navigation */
+          var pagiItem = anchor.closest('.paginav-item');
+          if (pagiItem) {
+            var titleEl = pagiItem.querySelector('.paginav-title');
+            gtag('event', 'post_navigate', {
+              direction: pagiItem.classList.contains('prev') ? 'prev' : 'next',
+              destination_title: titleEl ? titleEl.textContent.trim() : '',
+              post_title: postTitle,
+            });
+            return;
+          }
+
+          /* TOC link clicks */
+          if (anchor.closest('#TableOfContents')) {
+            gtag('event', 'toc_click', {
+              section: anchor.textContent.trim(),
+              post_title: postTitle,
+            });
+            return;
+          }
+
+          /* Tag clicks */
+          if (anchor.closest('.post-tags, .tags')) {
+            gtag('event', 'tag_click', {
+              tag_name: anchor.textContent.trim(),
+              post_title: postTitle,
+            });
+            return;
+          }
+
+          /* Code block copy button */
+          var copyBtn = target.closest('button');
+          if (copyBtn && copyBtn.closest('pre, .highlight')) {
+            var block = copyBtn.closest('pre, .highlight');
+            var codeEl = block ? block.querySelector('code') : null;
+            var lang = '';
+            if (codeEl) {
+              var cls = Array.from(codeEl.classList).find(function (c) { return c.startsWith('language-'); });
+              if (cls) lang = cls.replace('language-', '');
+            }
+            gtag('event', 'code_copy', { language: lang, post_title: postTitle });
+            return;
+          }
+
+          /* Outbound link clicks inside post content */
+          if (anchor.closest('.post-content') && href && anchor.hostname !== window.location.hostname) {
+            gtag('event', 'outbound_link_click', {
+              link_url: href,
+              link_text: anchor.textContent.trim().slice(0, 100),
+              post_title: postTitle,
+            });
+          }
+        });
+      }());
+    </script>
+
   </body>
 </html>
