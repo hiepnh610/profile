@@ -16,6 +16,7 @@ minify:
 params:
   env: production
   googleAnalytics: 'G-B7WM914B75'
+  fingerprintPublicKey: 'wvM86WQROgppWTepFAFr'
   title: 'Hiep Nguyen'
   description: "Personal blog — thoughts on software engineering and things I'm building."
   author: 'Hiep Nguyen'
