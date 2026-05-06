@@ -1,7 +1,7 @@
-baseURL: "https://hoanghiep.dev/"
-locale: "en-us"
-title: "Hiep Nguyen"
-theme: "PaperMod"
+baseURL: 'https://hoanghiep.dev/'
+locale: 'en-us'
+title: 'Hiep Nguyen'
+theme: 'PaperMod'
 paginate: 10
 
 enableRobotsTXT: true
@@ -15,12 +15,13 @@ minify:
 
 params:
   env: production
-  title: "Hiep Nguyen"
+  googleAnalytics: 'G-B7WM914B75'
+  title: 'Hiep Nguyen'
   description: "Personal blog — thoughts on software engineering and things I'm building."
-  author: "Hiep Nguyen"
-  DateFormat: "January 2, 2006"
+  author: 'Hiep Nguyen'
+  DateFormat: 'January 2, 2006'
 
-  defaultTheme: auto          # auto | light | dark
+  defaultTheme: auto # auto | light | dark
   disableThemeToggle: false
 
   ShowReadingTime: true
@@ -40,11 +41,11 @@ params:
   tocopen: false
 
   assets:
-    favicon: "/images/favicon.svg"
+    favicon: '/images/favicon.svg'
 
   label:
-    text: "Hiep Nguyen"
-    icon: "/images/favicon.svg"
+    text: 'Hiep Nguyen'
+    icon: '/images/favicon.svg'
 
   homeInfoParams:
     Title: "Hi, I'm Hiep"
@@ -54,7 +55,7 @@ params:
 
   socialIcons:
     - name: github
-      url: "https://github.com/hiepnh610"
+      url: 'https://github.com/hiepnh610'
 
   cover:
     hidden: true
@@ -63,8 +64,8 @@ params:
 
   # Allow readers to suggest edits via GitHub
   editPost:
-    URL: "https://github.com/hiepnh610/profile/blob/main/content"
-    Text: "Suggest Changes"
+    URL: 'https://github.com/hiepnh610/profile/blob/main/content'
+    Text: 'Suggest Changes'
     appendFilePath: true
 
   # Full-text search (Fuse.js) — powered by outputs.home JSON below
@@ -76,7 +77,7 @@ params:
     threshold: 0.4
     minMatchCharLength: 2
     limit: 10
-    keys: ["title", "permalink", "summary", "content"]
+    keys: ['title', 'permalink', 'summary', 'content']
 
 menu:
   main:
@@ -107,9 +108,9 @@ outputs:
 markup:
   goldmark:
     renderer:
-      unsafe: true           # allow raw HTML in Markdown
+      unsafe: true # allow raw HTML in Markdown
   highlight:
-    noClasses: false         # use external CSS (customisable)
+    noClasses: false # use external CSS (customisable)
     anchorLineNos: true
     codeFences: true
     guessSyntax: true
