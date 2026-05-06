@@ -36,6 +36,22 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
       defer
       src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"
     ></script>
+    {{- $isProd := or hugo.IsProduction (eq .Site.Params.env "production") -}}
+    {{- $gaID := or .Site.Params.googleAnalytics .Site.Params.googleanalytics -}}
+    {{- if and $isProd $gaID -}}
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id={{ $gaID }}"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', '{{ $gaID }}');
+    </script>
+    {{- end -}}
     <script>
       (function () {
         var t = localStorage.getItem('theme');
