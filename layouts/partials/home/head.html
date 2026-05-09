@@ -1,0 +1,128 @@
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{ site.Title }}</title>
+<meta name="description" content="{{ site.Params.description }}" />
+<link rel="icon" href="/images/favicon.svg" />
+<link rel="canonical" href="{{ .Permalink }}" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title="{{ site.Title }}"
+  href="/index.xml"
+/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
+  rel="stylesheet"
+/>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"
+></script>
+{{- $isProd := or hugo.IsProduction (eq .Site.Params.env "production") -}}
+{{- $gaID := or .Site.Params.googleAnalytics .Site.Params.googleanalytics -}}
+{{- if and $isProd $gaID -}}
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id={{ $gaID }}"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+  gtag('config', '{{ $gaID }}');
+</script>
+{{- end -}}
+{{- $fpKey := .Site.Params.fingerprintPublicKey -}}
+{{- if and $isProd $fpKey -}}
+<script>
+  (function () {
+    var CACHE_KEY = 'fp_visitor';
+    var CACHE_TTL = 86400000;
+    function sendToGA(visitorId) {
+      if (typeof gtag === 'function') {
+        gtag('set', 'user_properties', { fingerprint_visitor_id: visitorId });
+      }
+    }
+    try {
+      var cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+      if (cached && Date.now() - cached.ts < CACHE_TTL) { sendToGA(cached.id); return; }
+    } catch (e) {}
+    var script = document.createElement('script');
+    script.src = 'https://fpjscdn.net/v3/{{ $fpKey }}/iife.min.js';
+    script.onload = function () {
+      FingerprintJS.load()
+        .then(function (fp) { return fp.get(); })
+        .then(function (result) {
+          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ id: result.visitorId, ts: Date.now() })); } catch (e) {}
+          sendToGA(result.visitorId);
+        })
+        .catch(function () {});
+    };
+    document.head.appendChild(script);
+  })();
+</script>
+{{- end -}}
+<script>
+  (function () {
+    var t = localStorage.getItem('theme');
+    if (t === 'dark' || t === 'light')
+      document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+{{ partial "home/styles.html" . }}
+{{/* ── Open Graph / Social ── */}}
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ .Permalink }}" />
+<meta property="og:title" content="{{ site.Title }}" />
+<meta property="og:description" content="{{ site.Params.description }}" />
+<meta property="og:image" content="{{ "/images/og-default.jpg" | absURL }}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{{ site.Title }}" />
+<meta name="twitter:description" content="{{ site.Params.description }}" />
+<meta name="twitter:image" content="{{ "/images/og-default.jpg" | absURL }}" />
+{{/* ── Structured Data ── */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ site.Title }}",
+  "url": "{{ site.BaseURL }}",
+  "description": "{{ site.Params.description }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ site.BaseURL }}search/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "{{ site.BaseURL }}#person",
+  "name": "{{ site.Params.author }}",
+  "url": "{{ site.BaseURL }}",
+  "jobTitle": "Software Engineer",
+  "description": "{{ site.Params.description }}",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Hanoi",
+    "addressCountry": "VN"
+  },
+  "email": "hi@hoanghiep.dev",
+  "sameAs": [
+    "https://github.com/hiepnh610"
+  ]
+}
+</script>

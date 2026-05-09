@@ -1,0 +1,33 @@
+{{/* Receives: dict "totalPosts" $totalPosts "wordsThisYear" $wordsThisYear */}}
+<aside class="intro" aria-label="About Hiep">
+  <h1 class="who">I'm Hiep, <em>a software engineer in Hanoi.</em></h1>
+  <p class="bio">
+    I build things for the web and write about what I learn along the
+    way.
+    <span class="q"
+      >Mostly interested in the space where tools and writing intersect.
+      This site runs on
+      <a href="https://gohugo.io" rel="noopener">Hugo + Cloudflare</a
+      >.</span
+    >
+  </p>
+
+  <ul class="socials" aria-label="Social links">
+    <li><a href="mailto:hi@hoanghiep.dev">hi@hoanghiep.dev</a></li>
+  </ul>
+
+  <dl class="stats">
+    <div>
+      <dt>Posts</dt>
+      <dd>{{ .totalPosts }}</dd>
+    </div>
+    <div>
+      <dt>Since</dt>
+      <dd>2026</dd>
+    </div>
+    <div>
+      <dt>Words this year</dt>
+      <dd>{{ .wordsThisYear }}</dd>
+    </div>
+  </dl>
+</aside>

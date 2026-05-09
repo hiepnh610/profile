@@ -1,0 +1,53 @@
+{{/* Receives: dict "recent" $recent "totalPosts" $totalPosts */}}
+<div class="section-header">
+  <span class="section-title">Recent — last {{ len .recent }}</span>
+  <ul class="filter-tabs" role="tablist" aria-label="Filter by tag">
+    <li>
+      <button
+        role="tab"
+        aria-selected="true"
+        class="active"
+        data-filter="all"
+      >
+        all
+      </button>
+    </li>
+    <li>
+      <button role="tab" aria-selected="false" data-filter="dev">
+        dev
+      </button>
+    </li>
+    <li>
+      <button role="tab" aria-selected="false" data-filter="notes">
+        notes
+      </button>
+    </li>
+  </ul>
+</div>
+
+<ul class="posts" aria-label="Recent posts">
+  {{- range .recent }} {{- $tag := index .Params.tags 0 | default ""
+  }}
+  <li class="post-item" data-tag="{{ $tag }}">
+    <a class="post" href="{{ .RelPermalink }}">
+      <span class="post-date">{{ .Date.Format "02 Jan" }}</span>
+      <div class="post-body">
+        <span class="post-title">{{ .Title }}</span>
+        {{- with .Params.dek }}
+        <p class="post-dek">{{ . }}</p>
+        {{- else }}
+        <p class="post-dek">
+          {{ .Summary | plainify | truncate 120 }}
+        </p>
+        {{- end }}
+      </div>
+      <span class="post-tag">{{ $tag }}</span>
+    </a>
+  </li>
+  {{- end }}
+</ul>
+
+<a class="all-posts-link" href="/posts/">
+  Browse all {{ .totalPosts }} posts
+  <span class="icon-ms" aria-hidden="true">arrow_forward</span>
+</a>
