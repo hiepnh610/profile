@@ -18,6 +18,7 @@ hugo new posts/YYYY-MM-DD-slug.md         # new post from archetype
 
 CI (`.github/workflows/deploy.yml`) auto-builds and deploys on every push to `master`.
 The pipeline runs a **Gitleaks secret scan** (`security` job) before the `build` job — both must pass.
+Supply-chain hardening: actions are pinned by commit SHA (tag in trailing comment) and the Gitleaks/Hugo downloads are sha256-verified — when bumping a version, update BOTH the version and its checksum (from the release's `*_checksums.txt`).
 
 Husky runs `gitleaks protect --staged` on every local commit. Requires `gitleaks` installed locally.
 
@@ -34,6 +35,7 @@ Husky runs `gitleaks protect --staged` on every local commit. Requires `gitleaks
 | GA4 + Fingerprint.js snippet (all pages) | `layouts/partials/analytics.html` |
 | Single post page (also renders /about/, /search/) | `layouts/single.html` |
 | Posts archive + tag filter | `layouts/posts/list.html` |
+| Tags index (/tags/) + per-tag pages | `layouts/taxonomy.html` · `layouts/term.html` |
 | New post template | `archetypes/posts.md` |
 | CI/CD deploy | `.github/workflows/deploy.yml` |
 
@@ -60,6 +62,7 @@ Used by home head, `layouts/single.html`, and `layouts/posts/list.html` — edit
 | `analytics.html` | GA4 + Fingerprint.js (prod only) |
 | `theme-init.html` | pre-paint `data-theme` from localStorage |
 | `styles-shared.html` | design tokens, reset, topbar, icons, search-modal, focus/reduced-motion CSS |
+| `styles-list.html` | post-list page CSS (page-header, post rows, footer) — posts list + tags pages |
 | `topbar.html` | sticky nav header — `dict "active" "home\|about\|posts"` |
 | `icon.html` | inline SVG icons — `partial "icon.html" "search"` (search, sun, moon, arrows) |
 | `search-modal.html` | Fuse.js search `<dialog>` markup |
@@ -67,7 +70,7 @@ Used by home head, `layouts/single.html`, and `layouts/posts/list.html` — edit
 | `fonts.html` | `@font-face` + preloads for self-hosted woff2 |
 
 ### Non-home pages
-`layouts/single.html` renders ALL single pages (posts, /about/, /search/) — not just posts. `layouts/posts/list.html` renders the archive. Both are standalone documents composing the shared partials above. `layouts/partials/extend_head.html` (→ `analytics.html`) covers any remaining PaperMod-rendered page.
+`layouts/single.html` renders ALL single pages (posts, /about/, /search/) — not just posts. `layouts/posts/list.html` renders the archive; `layouts/taxonomy.html` / `layouts/term.html` render /tags/ and /tags/<tag>/. All are standalone documents composing the shared partials above. `layouts/partials/extend_head.html` (→ `analytics.html`) covers any remaining PaperMod-rendered page.
 
 ### Shortcodes
 `layouts/shortcodes/mermaid.html` — renders Mermaid diagrams in posts (self-hosted `/static/js/mermaid.min.js`, loaded once per page via `.Page.Scratch`).

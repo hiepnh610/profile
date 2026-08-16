@@ -1,0 +1,63 @@
+{{- /* term.html — posts under one tag, e.g. /tags/dev/ */ -}}
+{{- $term := .Title | lower -}}
+{{- $sorted := .Pages.ByDate.Reverse -}}
+<!doctype html>
+<html lang="{{ site.Language }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>#{{ $term }} · {{ site.Title }}</title>
+    <meta name="description" content="Posts tagged {{ $term }} — {{ site.Params.description }}" />
+    <link rel="icon" href="/images/favicon.svg" />
+    <link rel="canonical" href="{{ .Permalink }}" />
+    <link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="/index.xml" />
+    {{ partial "fonts.html" . }}
+    {{ partial "analytics.html" . }}
+    {{ partial "theme-init.html" . }}
+    {{ partial "styles-shared.html" . }}
+    {{ partial "styles-list.html" . }}
+  </head>
+  <body>
+    {{ partial "topbar.html" (dict "active" "posts") }}
+
+    <div class="page">
+      <header class="page-header">
+        <p class="page-eyebrow"><a href="/tags/">Tags</a></p>
+        <h1 class="page-title">#{{ $term }}</h1>
+        <p class="page-desc">{{ len $sorted }} {{ if eq (len $sorted) 1 }}post{{ else }}posts{{ end }} tagged {{ $term }}.</p>
+      </header>
+
+      <ul class="posts" aria-label="Posts tagged {{ $term }}">
+        {{- range $sorted }}
+        <li class="post-item">
+          <a class="post" href="{{ .RelPermalink }}">
+            <span class="post-date">{{ .Date.Format "02 Jan 06" }}</span>
+            <div class="post-body">
+              <span class="post-title">{{ .Title }}</span>
+              {{- with .Params.dek }}
+              <p class="post-dek">{{ . }}</p>
+              {{- else }}
+              <p class="post-dek">{{ .Summary | plainify | truncate 120 }}</p>
+              {{- end }}
+            </div>
+            <span class="post-tag">{{ index .Params.tags 0 | default "" }}</span>
+          </a>
+        </li>
+        {{- end }}
+      </ul>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="footer-left">© {{ now.Year }} Hiep Nguyen · thoughts on software and building</p>
+        <nav class="footer-right" aria-label="Footer navigation">
+          <a href="/index.xml">RSS</a>
+          <a href="/sitemap.xml">Sitemap</a>
+        </nav>
+      </div>
+    </footer>
+
+    {{ partial "search-modal.html" . }}
+    {{ partial "ui-scripts.html" . }}
+  </body>
+</html>

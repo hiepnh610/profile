@@ -1,0 +1,197 @@
+<style>
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    margin-bottom: 40px;
+  }
+
+  .page-eyebrow {
+    font-family: inherit;
+    font-size: 13px;
+    text-transform: lowercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+    margin-bottom: 10px;
+  }
+
+  .page-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--head);
+    margin-bottom: 12px;
+  }
+
+  .page-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  /* ── Section header ── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: lowercase;
+    color: var(--head);
+  }
+
+  .filter-tabs {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    list-style: none;
+  }
+
+  .filter-tabs button {
+    font-family: inherit;
+    font-size: 13px;
+    padding: 2px 8px;
+    border: none;
+    background: transparent;
+    color: var(--link);
+    cursor: pointer;
+    transition: color 150ms;
+  }
+
+  .filter-tabs button:hover {
+    text-decoration: underline;
+  }
+
+  .filter-tabs button.active {
+    color: var(--head);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  /* ── Posts list ── */
+  .posts {
+    list-style: none;
+    border-top: 1px solid var(--rule);
+  }
+
+  .post-item {
+    border-bottom: 1px solid var(--rule-2);
+  }
+
+  .post {
+    display: grid;
+    grid-template-columns: 92px 1fr auto;
+    gap: 0 16px;
+    align-items: start;
+    padding: 14px 0;
+    color: inherit;
+  }
+
+  .post:hover {
+    text-decoration: none;
+  }
+
+  .post-date {
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--quiet);
+    padding-top: 2px;
+  }
+
+  .post-title {
+    font-weight: 700;
+    color: var(--link);
+    display: inline;
+  }
+
+  .post:hover .post-title {
+    text-decoration: underline;
+  }
+
+  .post-dek {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 62ch;
+    margin-top: 2px;
+  }
+
+  .post-tag {
+    font-family: inherit;
+    font-size: 12px;
+    text-transform: lowercase;
+    color: var(--quiet);
+    padding-top: 3px;
+  }
+
+  /* ── Year divider ── */
+  .year-divider {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: lowercase;
+    color: var(--head);
+    padding: 20px 0 8px;
+    border-bottom: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    border-top: 1px solid var(--rule);
+    margin-top: clamp(28px, 4vw, 56px);
+  }
+
+  .footer-inner {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 16px 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .footer-left {
+    font-family: inherit;
+    font-size: 11px;
+    color: var(--quiet);
+  }
+
+  .footer-right {
+    display: flex;
+    gap: 16px;
+    font-family: inherit;
+    font-size: 11px;
+  }
+
+  .footer-right a {
+    color: var(--quiet);
+    transition: color 150ms;
+  }
+
+  .footer-right a:hover {
+    color: var(--ink);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 560px) {
+    .post {
+      grid-template-columns: 70px 1fr;
+    }
+
+    .post-tag {
+      display: none;
+    }
+  }
+</style>
