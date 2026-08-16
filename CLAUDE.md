@@ -79,6 +79,8 @@ Everything is self-hosted (`/static/fonts/`, `/static/js/`) — no CDN, no Googl
 
 ## Content Conventions
 
+Writing a post? Use the `/write-post` skill (`.claude/skills/write-post/SKILL.md`) — it encodes voice, front matter, and the publish checklist.
+
 Posts: `content/posts/YYYY-MM-DD-slug.md`
 
 YAML front matter:

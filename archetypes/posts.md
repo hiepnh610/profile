@@ -3,13 +3,13 @@ title: "{{ replace .File.ContentBaseName "-" " " | title }}"
 date: {{ .Date }}
 draft: true
 description: ""
+dek: ""
 tags: []
-categories: []
-showToc: true
+showToc: false
 ---
 
 <!--
-  Writing tips:
+  Writing tips (see .claude/skills/write-post/SKILL.md for the full guide):
   - Start with the problem, not the solution
   - Use code blocks with language tags for syntax highlighting
   - Add Mermaid diagrams with {{</* mermaid */>}} shortcode
