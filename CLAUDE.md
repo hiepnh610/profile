@@ -44,8 +44,8 @@ Orchestrates partials from `layouts/partials/home/`:
 |---------|---------|---------------|
 | `head.html` | `<head>` meta/fonts | `.` |
 | `topbar.html` | Sticky nav header | `.` |
-| `sidebar.html` | Bio + stats | `dict "totalPosts" "wordsThisYear"` |
-| `featured-card.html` | Hero card for featured/latest post | `dict "featured"` |
+| `sidebar.html` | Intro header: bio + one-line stats | `dict "totalPosts" "wordsThisYear"` |
+| `featured-card.html` | Flat featured-post block | `dict "featured"` |
 | `posts-list.html` | Recent 8 posts + tag filter tabs | `dict "recent" "totalPosts"` |
 | `projects.html` | Side-projects section | `.` |
 | `footer.html` | Site footer | `.` |
@@ -74,17 +74,24 @@ showToc: false
 # featured: true       # surfaces post in home page hero card
 ```
 
+## Visual Design
+
+Styled after watchyourhack.com: single narrow column (`max-width: 44rem`), warm paper background, flat markdown-like blocks separated by `<hr>`, blue links (underline on hover only), light + dark themes.
+
 ## CSS Design Tokens
 
-CSS variables defined inline in `layouts/partials/home/styles.html` (no external stylesheet):
+CSS variables defined inline in `layouts/partials/home/styles.html` (home) and duplicated in `layouts/single.html` / `layouts/posts/list.html` — keep the three token blocks in sync:
 
 ```
---ink, --paper, --muted, --quiet   # text hierarchy
---rule, --rule-2                   # borders
---topbar-bg                        # sticky header background
+--ink, --head, --muted, --quiet   # text hierarchy (head = headings)
+--paper                           # page background (#f8f8f6 light / #1b1b19 dark)
+--rule, --rule-2                  # borders / subtle bg
+--link                            # link blue (#006fd0 light / #58a6ff dark)
+--code-bg                         # inline-code background
+--topbar-bg                       # sticky header background
 ```
 
-Fonts: `Geist` (body) · `Geist Mono` (code/meta) · `Newsreader` (headings)
+Fonts: `iA Writer Duospace` (body + code) · `Montserrat 700` (headings) — self-hosted woff2 in `/static/fonts/`, `@font-face` + preloads in `layouts/partials/fonts.html` (included by home head, single, posts list).
 
 ## JavaScript Patterns
 

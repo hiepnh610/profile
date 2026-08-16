@@ -11,12 +11,9 @@
     <link rel="icon" href="/images/favicon.svg" />
     <link rel="canonical" href="{{ .Permalink }}" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="/index.xml" />
+    {{ partial "fonts.html" . }}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap"
-      rel="stylesheet"
-    />
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
       rel="stylesheet"
@@ -67,42 +64,53 @@
     <style>
       /* ── Design tokens ── */
       :root {
-        --ink: #0c0c0c;
-        --paper: #ffffff;
-        --muted: #6f6f6f;
-        --quiet: #a3a3a3;
-        --rule: #ececec;
-        --rule-2: #f6f6f6;
-        --topbar-bg: rgba(255, 255, 255, 0.85);
+        --ink: #333333;
+        --head: #111111;
+        --paper: #f8f8f6;
+        --muted: #666666;
+        --quiet: #999999;
+        --rule: #cccccc;
+        --rule-2: #e9e9e5;
+        --link: #006fd0;
+        --code-bg: #e6e6e2;
+        --topbar-bg: rgba(248, 248, 246, 0.92);
       }
 
       @media (prefers-color-scheme: dark) {
         :root:not([data-theme="light"]) {
-          --ink: #ebebeb;
-          --paper: #111111;
-          --muted: #909090;
-          --quiet: #5e5e5e;
-          --rule: #272727;
-          --rule-2: #1c1c1c;
-          --topbar-bg: rgba(17, 17, 17, 0.85);
+          --ink: #c9c9c4;
+          --head: #ededea;
+          --paper: #1b1b19;
+          --muted: #999999;
+          --quiet: #6e6e6a;
+          --rule: #3d3d39;
+          --rule-2: #262624;
+          --link: #58a6ff;
+          --code-bg: #2a2a27;
+          --topbar-bg: rgba(27, 27, 25, 0.92);
         }
       }
 
       :root[data-theme="dark"] {
-        --ink: #ebebeb;
-        --paper: #111111;
-        --muted: #909090;
-        --quiet: #5e5e5e;
-        --rule: #272727;
-        --rule-2: #1c1c1c;
-        --topbar-bg: rgba(17, 17, 17, 0.85);
+        --ink: #c9c9c4;
+        --head: #ededea;
+        --paper: #1b1b19;
+        --muted: #999999;
+        --quiet: #6e6e6a;
+        --rule: #3d3d39;
+        --rule-2: #262624;
+        --link: #58a6ff;
+        --code-bg: #2a2a27;
+        --topbar-bg: rgba(27, 27, 25, 0.92);
       }
 
       /* ── Reset ── */
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
       body {
-        font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-family: 'iA Writer Duospace', 'Courier New', monospace;
+        font-size: 16px;
+        line-height: 1.7;
         background: var(--paper);
         color: var(--ink);
         -webkit-font-smoothing: antialiased;
@@ -141,11 +149,12 @@
       }
 
       .topbar-inner {
-        max-width: 1180px;
+        max-width: 44rem;
         margin: 0 auto;
-        padding: 14px clamp(20px, 4vw, 48px);
+        padding: 12px 1rem;
         display: grid;
-        grid-template-columns: 1fr auto 1fr;
+        grid-template-columns: 1fr auto auto;
+        gap: 12px;
         align-items: center;
       }
 
@@ -162,17 +171,21 @@
         list-style: none;
       }
 
+      .topnav {
+        gap: 18px;
+      }
+
       .topnav a {
-        font-size: 13px;
+        font-size: 14px;
         color: var(--muted);
-        padding: 6px 12px;
-        border-radius: 999px;
-        transition: color 150ms ease, background 150ms ease;
+        transition: color 150ms ease;
         white-space: nowrap;
       }
 
       .topnav a:hover,
-      .topnav a.active { color: var(--ink); background: var(--rule-2); }
+      .topnav a.active { color: var(--head); text-decoration: none; }
+
+      .topnav a.active { font-weight: 700; }
 
       .icon-ms {
         font-family: 'Material Symbols Outlined';
@@ -193,19 +206,17 @@
       }
 
       .search-btn {
-        font-family: 'Geist Mono', 'Courier New', monospace;
-        font-size: 12px;
+        font-family: inherit;
+        font-size: 13px;
         color: var(--muted);
         background: transparent;
-        border: 1px solid var(--rule);
-        border-radius: 6px;
-        padding: 5px 32px;
+        border: none;
+        padding: 4px 6px;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
-        justify-content: center;
         gap: 6px;
-        transition: border-color 150ms, color 150ms;
+        transition: color 150ms;
       }
 
       .search-btn .icon-ms {
@@ -213,7 +224,7 @@
         vertical-align: middle;
       }
 
-      .search-btn:hover { color: var(--ink); border-color: var(--quiet); }
+      .search-btn:hover { color: var(--head); }
 
       .search-btn.pulse { animation: pulse-scale 250ms ease; }
 
@@ -251,14 +262,14 @@
       }
 
       .crumbs-inner {
-        max-width: 1180px;
+        max-width: 44rem;
         margin: 0 auto;
-        padding: 12px clamp(20px, 4vw, 48px);
+        padding: 10px 1rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 16px;
-        font-family: 'Geist Mono', monospace;
+        font-family: inherit;
         font-size: 12px;
       }
 
@@ -282,55 +293,29 @@
 
       .crumbs-back:hover .arrow { transform: translateX(-3px); }
 
-      /* ── Page wrapper ── */
+      /* ── Page wrapper: single narrow column ── */
       .page {
-        max-width: 1180px;
+        max-width: 44rem;
         margin: 0 auto;
-        padding: clamp(36px, 5vw, 72px) clamp(20px, 4vw, 48px);
+        padding: 2.5rem 1rem 4rem;
       }
 
-      /* ── 2-column post layout ── */
       .post-layout {
-        display: grid;
-        grid-template-columns: 220px 1fr;
-        gap: clamp(48px, 6vw, 96px);
-        align-items: start;
+        display: block;
       }
 
-      /* ── Sidebar ── */
+      /* ── Contents block (before article) ── */
       .post-side {
-        position: sticky;
-        top: 96px;
-      }
-
-      /* ── Meta block ── */
-      .meta-block {
         border-bottom: 1px solid var(--rule);
-        padding-bottom: 20px;
-        margin-bottom: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 0;
+        padding-bottom: 1.5rem;
+        margin-bottom: 2rem;
       }
 
-      .meta-row {
-        display: grid;
-        grid-template-columns: 70px 1fr;
-        align-items: baseline;
-        padding: 4px 0;
-      }
-
-      .meta-block dt {
-        font-family: 'Geist Mono', monospace;
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--quiet);
-      }
-
-      .meta-block dd {
-        font-size: 12px;
-        color: var(--ink);
+      .post-side:empty {
+        display: none;
+        border: none;
+        margin: 0;
+        padding: 0;
       }
 
       /* ── TOC ── */
@@ -339,11 +324,11 @@
       }
 
       .toc-label {
-        font-family: 'Geist Mono', monospace;
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--quiet);
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        text-transform: lowercase;
+        color: var(--head);
         margin-bottom: 8px;
       }
 
@@ -357,35 +342,29 @@
 
       #TableOfContents a {
         display: block;
-        padding: 4px 0 4px 12px;
-        border-left: 1px solid var(--rule);
-        font-size: 12px;
-        color: var(--muted);
-        line-height: 1.4;
-        transition: color 150ms, border-color 150ms;
+        padding: 2px 0;
+        font-size: 14px;
+        color: var(--link);
+        line-height: 1.5;
         text-decoration: none;
       }
 
       #TableOfContents a:hover {
-        color: var(--quiet);
-        border-left-color: var(--quiet);
+        text-decoration: underline;
       }
 
       #TableOfContents a.active {
-        border-left: 2px solid var(--ink);
-        color: var(--ink);
-        font-weight: 500;
-        padding-left: 11px;
+        color: var(--head);
+        font-weight: 700;
       }
 
       /* h3 entries */
       #TableOfContents li ul {
-        margin-left: 12px;
+        margin-left: 16px;
       }
 
       #TableOfContents li ul a {
-        font-size: 11.5px;
-        color: var(--quiet);
+        font-size: 13px;
       }
 
       /* ── Share pills ── */
@@ -396,24 +375,23 @@
       }
 
       .share-pill {
-        font-family: 'Geist Mono', monospace;
-        font-size: 11px;
-        border: 1px solid var(--rule);
-        border-radius: 999px;
-        padding: 5px 11px;
-        color: var(--muted);
+        font-family: inherit;
+        font-size: 13px;
+        border: none;
+        padding: 0;
+        color: var(--link);
         cursor: pointer;
         background: transparent;
-        transition: color 150ms, border-color 150ms, background 150ms, transform 150ms;
         text-decoration: none;
         display: inline-block;
       }
 
       .share-pill:hover {
-        color: var(--ink);
-        border-color: var(--quiet);
-        background: var(--rule-2);
-        transform: translateY(-1px);
+        text-decoration: underline;
+      }
+
+      .share-pills {
+        gap: 16px;
       }
 
       /* ── Article ── */
@@ -421,7 +399,7 @@
 
       /* ── Eyebrow ── */
       .eyebrow {
-        font-family: 'Geist Mono', monospace;
+        font-family: inherit;
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.12em;
@@ -444,25 +422,21 @@
 
       /* ── Post title ── */
       h1.post-title {
-        font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
-        font-size: clamp(36px, 4.4vw, 60px);
-        font-weight: 500;
-        line-height: 1.04;
-        letter-spacing: -0.02em;
+        font-family: 'Montserrat', sans-serif;
+        font-size: clamp(28px, 4vw, 40px);
+        font-weight: 700;
+        line-height: 1.15;
         text-wrap: balance;
-        max-width: 18ch;
-        color: var(--ink);
+        color: var(--head);
         margin-bottom: 20px;
       }
 
       /* ── Standfirst ── */
       .standfirst {
-        font-family: 'Newsreader', Georgia, serif;
         font-style: italic;
-        font-size: clamp(18px, 1.8vw, 22px);
-        line-height: 1.5;
+        font-size: 17px;
+        line-height: 1.6;
         color: var(--muted);
-        max-width: 50ch;
         margin-bottom: 24px;
       }
 
@@ -474,7 +448,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        font-family: 'Geist Mono', monospace;
+        font-family: inherit;
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.06em;
@@ -488,21 +462,9 @@
 
       /* ── Post body ── */
       .post-content {
-        max-width: 64ch;
-        font-size: 17px;
-        line-height: 1.65;
+        font-size: 16px;
+        line-height: 1.7;
         color: var(--ink);
-      }
-
-      /* Drop cap on first paragraph */
-      .post-content > p:first-of-type::first-letter,
-      .post-content p.lead::first-letter {
-        font-family: 'Newsreader', Georgia, serif;
-        font-weight: 500;
-        font-size: 3.6em;
-        float: left;
-        line-height: 0.85;
-        margin: 0.05em 0.08em 0 -0.04em;
       }
 
       .post-content p { margin-bottom: 1.2em; }
@@ -510,17 +472,12 @@
 
       /* Inline links */
       .post-content a {
-        color: var(--ink);
-        background-image: linear-gradient(var(--ink), var(--ink));
-        background-repeat: no-repeat;
-        background-position: 0 100%;
-        background-size: 100% 1px;
+        color: var(--link);
         text-decoration: none;
-        transition: background-size 300ms;
       }
 
       .post-content a:hover {
-        background-size: 100% 2px;
+        text-decoration: underline;
       }
 
       /* Lists */
@@ -534,18 +491,17 @@
 
       /* H2 section headings */
       .post-content h2 {
-        font-family: 'Newsreader', Georgia, serif;
-        font-size: 28px;
-        font-weight: 500;
-        line-height: 1.2;
-        letter-spacing: -0.01em;
-        color: var(--ink);
+        font-family: 'Montserrat', sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.25;
+        color: var(--head);
         margin: 2.2em 0 0.6em;
         scroll-margin-top: 88px;
       }
 
       .post-content h2 .num {
-        font-family: 'Geist Mono', monospace;
+        font-family: 'iA Writer Duospace', monospace;
         font-size: 12px;
         color: var(--quiet);
         vertical-align: 0.45em;
@@ -554,10 +510,12 @@
 
       /* H3 */
       .post-content h3 {
-        font-family: 'Geist', sans-serif;
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--ink);
+        font-family: 'Montserrat', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--head);
         margin: 1.8em 0 0.5em;
         scroll-margin-top: 88px;
       }
@@ -566,31 +524,34 @@
       .post-content h4,
       .post-content h5,
       .post-content h6 {
-        font-size: 15px;
-        font-weight: 600;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--head);
         margin: 1.4em 0 0.4em;
         scroll-margin-top: 88px;
       }
 
       /* Blockquote */
       .post-content blockquote {
-        border-left: 2px solid var(--ink);
-        padding-left: 28px;
+        border-left: 4px solid var(--rule);
+        padding: 0.5rem 1rem;
         margin: 1.8em 0;
+        color: var(--muted);
       }
 
       .post-content blockquote p {
-        font-family: 'Newsreader', Georgia, serif;
-        font-style: italic;
-        font-size: 21px;
-        line-height: 1.45;
-        color: var(--ink);
+        font-size: 16px;
+        line-height: 1.7;
+        color: var(--muted);
         margin-bottom: 0.5em;
       }
 
       .post-content blockquote cite {
         display: block;
-        font-family: 'Geist Mono', monospace;
+        font-family: inherit;
         font-style: normal;
         font-size: 11px;
         text-transform: uppercase;
@@ -603,10 +564,8 @@
 
       /* Pull quote */
       .post-content .pull-quote {
-        font-family: 'Newsreader', Georgia, serif;
         font-style: italic;
-        font-weight: 500;
-        font-size: clamp(24px, 2.6vw, 32px);
+        font-size: clamp(19px, 2.2vw, 24px);
         line-height: 1.25;
         border-top: 1px solid var(--rule);
         border-bottom: 1px solid var(--rule);
@@ -618,11 +577,10 @@
 
       /* Inline code */
       .post-content code {
-        font-family: 'Geist Mono', 'Courier New', monospace;
-        font-size: 0.88em;
-        background: var(--rule-2);
+        font-family: inherit;
+        font-size: 0.92em;
+        background: var(--code-bg);
         padding: 1px 6px;
-        border-radius: 3px;
       }
 
       /* Code blocks — base pre */
@@ -630,9 +588,8 @@
         background: #0c0c0c;
         color: #f5f5f5;
         padding: 18px 22px;
-        border-radius: 8px;
         overflow-x: auto;
-        font-family: 'Geist Mono', 'Courier New', monospace;
+        font-family: inherit;
         font-size: 13px;
         line-height: 1.6;
         margin: 1.5em 0;
@@ -649,7 +606,6 @@
       /* Chroma highlighted blocks */
       .post-content .highlight {
         margin: 1.5em 0;
-        border-radius: 8px;
         overflow: hidden;
         font-size: 13px;
         line-height: 1.6;
@@ -665,9 +621,8 @@
         background: transparent;
         margin: 0;
         padding: 18px 22px;
-        border-radius: 0;
         overflow-x: auto;
-        font-family: 'Geist Mono', 'Courier New', monospace;
+        font-family: inherit;
         font-size: 13px;
         line-height: 1.6;
       }
@@ -749,15 +704,20 @@
       }
 
       .post-content figure img {
-        width: 100%;
-        border: 1px solid var(--rule);
-        border-radius: 8px;
+        max-width: 100%;
+        margin: 0 auto;
+        display: block;
+      }
+
+      .post-content img {
+        max-width: 100%;
+        margin: 0 auto;
         display: block;
       }
 
       .post-content figure figcaption {
-        font-family: 'Geist Mono', monospace;
-        font-size: 11px;
+        font-family: inherit;
+        font-size: 13px;
         color: var(--muted);
         text-align: center;
         margin-top: 8px;
@@ -793,7 +753,7 @@
 
       /* Footnote refs */
       .post-content sup a {
-        font-family: 'Geist Mono', monospace;
+        font-family: inherit;
         font-size: 0.7em;
         border: 1px solid var(--rule);
         border-radius: 3px;
@@ -825,40 +785,32 @@
         border-top: 1px solid var(--rule);
         margin-top: 3.5em;
         padding-top: 2em;
-        max-width: 64ch;
       }
 
-      /* Tag pills */
+      /* Tag links */
       .post-tags {
         display: flex;
-        gap: 6px;
+        gap: 14px;
         flex-wrap: wrap;
         list-style: none;
         margin-bottom: 2em;
       }
 
       .post-tags a {
-        font-family: 'Geist Mono', monospace;
-        font-size: 11px;
-        border: 1px solid var(--rule);
-        border-radius: 999px;
-        padding: 4px 10px;
-        color: var(--muted);
+        font-family: inherit;
+        font-size: 14px;
+        color: var(--link);
         text-decoration: none;
-        background-image: none;
-        transition: color 150ms, border-color 150ms;
       }
 
       .post-tags a::before { content: '#'; }
 
-      .post-tags a:hover { color: var(--ink); border-color: var(--quiet); }
+      .post-tags a:hover { text-decoration: underline; }
 
       /* Author card */
       .author-card {
-        border: 1px solid var(--rule);
-        border-radius: 10px;
-        background: linear-gradient(180deg, var(--rule-2) 0%, var(--paper) 100%);
-        padding: 20px;
+        border-top: 1px solid var(--rule);
+        padding: 1.5em 0 0;
         display: flex;
         gap: 16px;
         align-items: flex-start;
@@ -868,9 +820,10 @@
       .author-info { flex: 1; min-width: 0; }
 
       .author-name {
-        font-size: 15px;
-        font-weight: 600;
-        color: var(--ink);
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--head);
         margin-bottom: 6px;
       }
 
@@ -884,7 +837,7 @@
         display: flex;
         gap: 12px;
         flex-wrap: wrap;
-        font-family: 'Geist Mono', monospace;
+        font-family: inherit;
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.06em;
@@ -903,34 +856,29 @@
       .paginav {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 12px;
+        gap: 24px;
+        border-top: 1px solid var(--rule);
+        padding-top: 1.5em;
       }
 
       .paginav-item {
-        border: 1px solid var(--rule);
-        border-radius: 10px;
-        padding: 16px;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 4px;
         text-decoration: none;
         color: inherit;
-        background-image: none;
-        transition: border-color 200ms, background 200ms;
       }
 
       .paginav-item:hover {
-        border-color: var(--quiet);
-        background: var(--rule-2);
+        text-decoration: none;
       }
 
       .paginav-item.next { text-align: right; }
 
       .paginav-label {
-        font-family: 'Geist Mono', monospace;
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
+        font-family: inherit;
+        font-size: 12px;
+        text-transform: lowercase;
         color: var(--quiet);
         display: inline-flex;
         align-items: center;
@@ -942,11 +890,14 @@
       }
 
       .paginav-title {
-        font-family: 'Newsreader', Georgia, serif;
-        font-size: 17px;
-        font-weight: 500;
-        color: var(--ink);
-        line-height: 1.3;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--link);
+        line-height: 1.4;
+      }
+
+      .paginav-item:hover .paginav-title {
+        text-decoration: underline;
       }
 
       /* ── Site footer ── */
@@ -956,9 +907,9 @@
       }
 
       .footer-inner {
-        max-width: 1180px;
+        max-width: 44rem;
         margin: 0 auto;
-        padding: 20px clamp(20px, 4vw, 48px);
+        padding: 16px 1rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -967,7 +918,7 @@
       }
 
       .footer-left {
-        font-family: 'Geist Mono', monospace;
+        font-family: inherit;
         font-size: 11px;
         color: var(--quiet);
       }
@@ -975,7 +926,7 @@
       .footer-right {
         display: flex;
         gap: 16px;
-        font-family: 'Geist Mono', monospace;
+        font-family: inherit;
         font-size: 11px;
       }
 
@@ -988,22 +939,6 @@
       .footer-right a:hover { color: var(--ink); }
 
       /* ── Responsive ── */
-      @media (max-width: 880px) {
-        .post-layout {
-          grid-template-columns: 1fr;
-        }
-
-        .post-side {
-          position: static;
-          order: 2;
-        }
-
-        .post-article {
-          order: 1;
-        }
-
-      }
-
       @media (max-width: 560px) {
         .post-content { font-size: 16px; }
         .paginav { grid-template-columns: 1fr; }
@@ -1030,14 +965,13 @@
 
       /* ── Search modal ── */
       #search-modal {
-        border: none;
-        border-radius: 14px;
+        border: 1px solid var(--rule);
         padding: 0;
         width: min(560px, calc(100vw - 32px));
         max-height: 70vh;
         overflow: hidden;
         background: var(--paper);
-        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.14), 0 0 0 1px var(--rule);
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.14);
         position: fixed;
         top: 80px;
         margin: 0 auto;
@@ -1056,7 +990,7 @@
       }
 
       #modal-input {
-        font-family: 'Geist', sans-serif;
+        font-family: inherit;
         font-size: 16px;
         border: none;
         border-bottom: 1px solid var(--rule);
@@ -1094,7 +1028,8 @@
 
       .res-title {
         font-size: 15px;
-        font-weight: 500;
+        font-weight: 700;
+        color: var(--link);
         margin-bottom: 2px;
       }
 
@@ -1107,7 +1042,7 @@
       }
 
       #modal-hint {
-        font-family: 'Geist Mono', monospace;
+        font-family: inherit;
         font-size: 12px;
         color: var(--quiet);
         padding: 14px 20px;
@@ -1229,48 +1164,6 @@
     <div class="page">
       <div class="post-layout">
 
-        <!-- Sidebar -->
-        <aside class="post-side" aria-label="Post metadata and navigation">
-          <dl class="meta-block">
-            <div class="meta-row">
-              <dt>Date</dt>
-              <dd>{{ .Date.Format "02 Jan 2006" }}</dd>
-            </div>
-            <div class="meta-row">
-              <dt>Read</dt>
-              <dd>{{ .ReadingTime }} min</dd>
-            </div>
-            {{- with index .Params.tags 0 }}
-            <div class="meta-row">
-              <dt>Type</dt>
-              <dd>{{ . | title }}</dd>
-            </div>
-            {{- end }}
-            <div class="meta-row">
-              <dt>Words</dt>
-              <dd>{{ .WordCount }}</dd>
-            </div>
-            {{- if .Params.updated }}
-            <div class="meta-row">
-              <dt>Updated</dt>
-              <dd>{{ .Params.updated }}</dd>
-            </div>
-            {{- end }}
-          </dl>
-
-          {{- if $hasHeaders }}
-          <div class="toc-wrap">
-            <p class="toc-label">Contents</p>
-            {{ .TableOfContents }}
-          </div>
-          {{- end }}
-
-          <div class="share-pills">
-            <button class="share-pill" id="copy-link" aria-label="Copy link to clipboard">Copy link</button>
-            <a class="share-pill" href="mailto:?subject={{ .Title | urlquery }}&amp;body={{ .Permalink | urlquery }}">Email</a>
-          </div>
-        </aside>
-
         <!-- Article -->
         <article class="post-article">
           <header class="post-header">
@@ -1297,11 +1190,25 @@
             </div>
           </header>
 
+          {{- if $hasHeaders }}
+          <div class="post-side" aria-label="Table of contents">
+            <div class="toc-wrap">
+              <p class="toc-label">contents</p>
+              {{ .TableOfContents }}
+            </div>
+          </div>
+          {{- end }}
+
           <div class="post-content">
             {{ .Content }}
           </div>
 
           <footer class="article-foot">
+            <div class="share-pills" style="margin-bottom: 2em">
+              <button class="share-pill" id="copy-link" aria-label="Copy link to clipboard">copy link 🔗</button>
+              <a class="share-pill" href="mailto:?subject={{ .Title | urlquery }}&amp;body={{ .Permalink | urlquery }}">email ✉️</a>
+            </div>
+
             {{- $tags := .Language.Params.Taxonomies.tag | default "tags" }}
             {{- $terms := $.GetTerms $tags }}
             {{- if $terms }}

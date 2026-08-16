@@ -1,6 +1,6 @@
 {{/* Receives: dict "recent" $recent "totalPosts" $totalPosts */}}
 <div class="section-header">
-  <span class="section-title">Recent — last {{ len .recent }}</span>
+  <span class="section-title">recent writing ✍️</span>
   <ul class="filter-tabs" role="tablist" aria-label="Filter by tag">
     <li>
       <button
@@ -48,6 +48,5 @@
 </ul>
 
 <a class="all-posts-link" href="/posts/">
-  Browse all {{ .totalPosts }} posts
-  <span class="icon-ms" aria-hidden="true">arrow_forward</span>
+  browse all {{ .totalPosts }} posts →
 </a>

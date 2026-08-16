@@ -16,15 +16,15 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
     {{ partial "home/topbar.html" . }}
 
     <div class="page">
-      <div class="main-grid">
-        {{ partial "home/sidebar.html" (dict "totalPosts" $totalPosts "wordsThisYear" $wordsThisYear) }}
+      {{ partial "home/sidebar.html" (dict "totalPosts" $totalPosts "wordsThisYear" $wordsThisYear) }}
 
-        <section class="feed" aria-label="Writing feed">
-          {{ partial "home/featured-card.html" (dict "featured" $featured) }}
-          {{ partial "home/posts-list.html" (dict "recent" $recent "totalPosts" $totalPosts) }}
-          {{ partial "home/projects.html" . }}
-        </section>
-      </div>
+      <section class="feed" aria-label="Writing feed">
+        {{ partial "home/featured-card.html" (dict "featured" $featured) }}
+        <hr />
+        {{ partial "home/posts-list.html" (dict "recent" $recent "totalPosts" $totalPosts) }}
+        <hr />
+        {{ partial "home/projects.html" . }}
+      </section>
     </div>
 
     {{ partial "home/footer.html" . }}

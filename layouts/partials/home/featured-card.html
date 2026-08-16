@@ -1,23 +1,20 @@
 {{/* Receives: dict "featured" $featured */}}
 {{- with .featured }}
-<a class="featured-card" href="{{ .RelPermalink }}">
-  <span class="featured-label" aria-label="Featured post"
-    >FEATURED</span
-  >
+<article class="featured" aria-label="Featured post">
+  <p class="featured-label">★ featured</p>
+  <h2 class="featured-title">
+    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+  </h2>
   <p class="featured-meta">
     {{- .Date.Format "02 Jan 2006" -}} {{- with index .Params.tags 0
-    }} · {{ . | title }}{{- end -}} {{- if gt .ReadingTime 0 }} · {{
+    }} · {{ . }}{{- end -}} {{- if gt .ReadingTime 0 }} · {{
     .ReadingTime }} min read{{- end -}}
   </p>
-  <h2 class="featured-title">{{ .Title }}</h2>
   <p class="featured-dek">
     {{- with .Params.dek }}{{ . }}{{- else }}{{ .Summary }}{{- end -}}
   </p>
-  <span class="featured-read">
-    <u>Read the post</u>
-    <span class="featured-arrow icon-ms" aria-hidden="true"
-      >arrow_forward</span
-    >
-  </span>
-</a>
+  <p class="featured-read">
+    <a href="{{ .RelPermalink }}">read the post →</a>
+  </p>
+</article>
 {{- end }}
