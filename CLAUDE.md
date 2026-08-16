@@ -5,8 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 Hugo v0.161.1 static blog deployed to GitHub Pages at hoanghiep.dev.
-No backend, no JS framework, no bundler — just `hugo --minify` → `/public/`.
-All customization overrides the PaperMod theme via `/layouts/`. Never edit `/themes/PaperMod/` directly.
+No backend, no JS framework, no bundler, no theme — every template is hand-written in `/layouts/`; `hugo --minify` → `/public/`.
 
 ## Essential Commands
 
@@ -33,7 +32,7 @@ Husky runs `gitleaks protect --staged` on every local commit. Requires `gitleaks
 | Home page scripts (tag filter + shared UI JS) | `layouts/partials/home/scripts.html` |
 | Shared search + theme-toggle JS | `layouts/partials/ui-scripts.html` |
 | GA4 + Fingerprint.js snippet (all pages) | `layouts/partials/analytics.html` |
-| Single post page (also renders /about/, /search/) | `layouts/single.html` |
+| Single post page (also renders /about/) | `layouts/single.html` |
 | Posts archive + tag filter | `layouts/posts/list.html` |
 | Tags index (/tags/) + per-tag pages | `layouts/taxonomy.html` · `layouts/term.html` |
 | New post template | `archetypes/posts.md` |
@@ -70,7 +69,7 @@ Used by home head, `layouts/single.html`, and `layouts/posts/list.html` — edit
 | `fonts.html` | `@font-face` + preloads for self-hosted woff2 |
 
 ### Non-home pages
-`layouts/single.html` renders ALL single pages (posts, /about/, /search/) — not just posts. `layouts/posts/list.html` renders the archive; `layouts/taxonomy.html` / `layouts/term.html` render /tags/ and /tags/<tag>/. All are standalone documents composing the shared partials above. `layouts/partials/extend_head.html` (→ `analytics.html`) covers any remaining PaperMod-rendered page.
+`layouts/single.html` renders ALL single pages (posts, /about/) — not just posts. `layouts/posts/list.html` renders the archive; `layouts/taxonomy.html` / `layouts/term.html` render /tags/ and /tags/<tag>/; `layouts/404.html` is the GitHub Pages not-found page. All are standalone documents composing the shared partials above.
 
 ### Shortcodes
 `layouts/shortcodes/mermaid.html` — renders Mermaid diagrams in posts (self-hosted `/static/js/mermaid.min.js`, loaded once per page via `.Page.Scratch`).
@@ -127,7 +126,7 @@ Fonts: `iA Writer Duospace` (body + code) · `Montserrat 700` (headings) — sel
 ## What NOT to Touch
 
 - `/public/` — build artifact, never edit manually (regenerated each build)
-- `/themes/PaperMod/` — git submodule; create overrides in `/layouts/` instead
+- `hugo.yaml` `params` — only 5 params exist and all are consumed by templates (`env`, `googleAnalytics`, `fingerprintPublicKey`, `description`, `author`); don't add theme-style config that nothing reads
 
 ## Commit Convention
 

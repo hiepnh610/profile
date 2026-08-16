@@ -1,0 +1,67 @@
+{{- /* 404.html — served by GitHub Pages for unknown URLs */ -}}
+<!doctype html>
+<html lang="{{ site.Language }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 · {{ site.Title }}</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/images/favicon.svg" />
+    {{ partial "fonts.html" . }}
+    {{ partial "analytics.html" . }}
+    {{ partial "theme-init.html" . }}
+    {{ partial "styles-shared.html" . }}
+    <style>
+      a {
+        color: var(--link);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .page {
+        text-align: left;
+        padding-top: 6rem;
+      }
+
+      .err-code {
+        font-family: inherit;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        color: var(--quiet);
+        margin-bottom: 10px;
+      }
+
+      .err-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: clamp(28px, 4vw, 38px);
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--head);
+        margin-bottom: 12px;
+      }
+
+      .err-desc {
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--muted);
+        margin-bottom: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    {{ partial "topbar.html" (dict "active" "") }}
+
+    <div class="page">
+      <p class="err-code">404</p>
+      <h1 class="err-title">Page not found</h1>
+      <p class="err-desc">This page doesn't exist — it may have moved, or the link is broken.</p>
+      <p><a href="/">← Back to home</a> · <a href="/posts/">All posts</a></p>
+    </div>
+
+    {{ partial "search-modal.html" . }}
+    {{ partial "ui-scripts.html" . }}
+  </body>
+</html>

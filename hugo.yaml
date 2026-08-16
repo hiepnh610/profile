@@ -1,9 +1,6 @@
 baseURL: 'https://hoanghiep.dev/'
 locale: 'en-us'
 title: 'Hiep Nguyen'
-theme: 'PaperMod'
-pagination:
-  pagerSize: 10
 
 enableRobotsTXT: true
 buildDrafts: false
@@ -15,88 +12,13 @@ minify:
   minifyOutput: true
 
 params:
-  env: production
+  env: production # gates GA4 + Fingerprint in layouts/partials/analytics.html
   googleAnalytics: 'G-B7WM914B75'
   fingerprintPublicKey: 'wvM86WQROgppWTepFAFr'
-  title: 'Hiep Nguyen'
   description: "Personal blog — thoughts on software engineering and things I'm building."
   author: 'Hiep Nguyen'
-  DateFormat: 'January 2, 2006'
 
-  defaultTheme: auto # auto | light | dark
-  disableThemeToggle: false
-
-  ShowReadingTime: true
-  ShowShareButtons: false
-  ShowPostNavLinks: true
-  ShowBreadCrumbs: true
-  ShowCodeCopyButtons: true
-  ShowWordCount: false
-  ShowRssButtonInSectionTermList: true
-  UseHugoToc: true
-  disableSpecial1stPost: false
-  disableScrollToTop: false
-  comments: false
-  hidemeta: false
-  hideSummary: false
-  showtoc: true
-  tocopen: false
-
-  assets:
-    favicon: '/images/favicon.svg'
-
-  label:
-    text: 'Hiep Nguyen'
-    icon: '/images/favicon.svg'
-
-  homeInfoParams:
-    Title: "Hi, I'm Hiep"
-    Content: >
-      I write about software engineering, things I'm building,
-      and lessons learned along the way.
-
-  socialIcons:
-    - name: github
-      url: 'https://github.com/hiepnh610'
-
-  cover:
-    hidden: true
-    hiddenInList: true
-    hiddenInSingle: true
-
-  # Allow readers to suggest edits via GitHub
-  editPost:
-    URL: 'https://github.com/hiepnh610/profile/blob/main/content'
-    Text: 'Suggest Changes'
-    appendFilePath: true
-
-  # Full-text search (Fuse.js) — powered by outputs.home JSON below
-  fuseOpts:
-    isCaseSensitive: false
-    shouldSort: true
-    location: 0
-    distance: 1000
-    threshold: 0.4
-    minMatchCharLength: 2
-    limit: 10
-    keys: ['title', 'permalink', 'summary', 'content']
-
-menu:
-  main:
-    - identifier: posts
-      name: Posts
-      url: /posts/
-      weight: 10
-    - identifier: tags
-      name: Tags
-      url: /tags/
-      weight: 20
-    - identifier: about
-      name: About
-      url: /about/
-      weight: 30
-
-# JSON output enables Fuse.js search
+# JSON output enables Fuse.js search (layouts/index.json)
 outputs:
   home:
     - HTML

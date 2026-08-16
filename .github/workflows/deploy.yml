@@ -62,7 +62,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          submodules: recursive # fetch PaperMod theme
           fetch-depth: 0 # full history for .GitInfo and .Lastmod
 
       - name: Setup Pages
