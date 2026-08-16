@@ -1,0 +1,23 @@
+{{- /* Shared topbar — usage: partial "topbar.html" (dict "active" "home") */ -}}
+{{- $active := .active | default "" -}}
+<header class="topbar">
+  <div class="topbar-inner">
+    <nav aria-label="Main navigation">
+      <ul class="topnav">
+        <li><a href="/"{{ if eq $active "home" }} class="active"{{ end }}>Home</a></li>
+        <li><a href="/about/"{{ if eq $active "about" }} class="active"{{ end }}>About</a></li>
+        <li><a href="/posts/"{{ if eq $active "posts" }} class="active"{{ end }}>Writing</a></li>
+      </ul>
+    </nav>
+    <button class="search-btn" id="search-btn" aria-label="Search (⌘K)">
+      {{ partial "icon.html" "search" }}
+      Search ⌘K
+    </button>
+    <div class="topbar-right">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        {{ partial "icon.html" "moon" }}
+        {{ partial "icon.html" "sun" }}
+      </button>
+    </div>
+  </div>
+</header>

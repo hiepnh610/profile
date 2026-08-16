@@ -111,22 +111,12 @@
     font-weight: 700;
   }
 
-  .icon-ms {
-    font-family: 'Material Symbols Outlined';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 1.125em;
-    line-height: 1;
-    letter-spacing: normal;
-    text-transform: none;
+  .icon {
+    width: 1.125em;
+    height: 1.125em;
     display: inline-block;
     vertical-align: -0.2em;
-    font-variation-settings:
-      'FILL' 0,
-      'wght' 400,
-      'GRAD' 0,
-      'opsz' 24;
-    -webkit-font-smoothing: antialiased;
+    flex-shrink: 0;
   }
 
   .search-btn {
@@ -143,9 +133,9 @@
     transition: color 150ms;
   }
 
-  .search-btn .icon-ms {
-    font-size: 16px;
-    vertical-align: middle;
+  .search-btn .icon {
+    width: 16px;
+    height: 16px;
   }
 
   .search-btn:hover {
@@ -171,13 +161,36 @@
     transition: color 150ms;
   }
 
-  .theme-toggle .icon-ms {
-    font-size: 18px;
-    vertical-align: middle;
+  .theme-toggle .icon {
+    width: 18px;
+    height: 18px;
   }
 
   .theme-toggle:hover {
     color: var(--ink);
+  }
+
+  /* Sun/moon swap is pure CSS: light shows moon, dark shows sun */
+  .theme-toggle .icon-sun {
+    display: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .theme-toggle .icon-moon {
+      display: none;
+    }
+
+    :root:not([data-theme='light']) .theme-toggle .icon-sun {
+      display: inline-block;
+    }
+  }
+
+  :root[data-theme='dark'] .theme-toggle .icon-moon {
+    display: none;
+  }
+
+  :root[data-theme='dark'] .theme-toggle .icon-sun {
+    display: inline-block;
   }
 
   @keyframes pulse-scale {

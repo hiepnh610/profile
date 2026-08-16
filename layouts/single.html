@@ -658,8 +658,9 @@
         gap: 4px;
       }
 
-      .paginav-label .icon-ms {
-        font-size: 14px;
+      .paginav-label .icon {
+        width: 14px;
+        height: 14px;
       }
 
       .paginav-title {
@@ -804,33 +805,13 @@
     <!-- Reading progress bar -->
     <div class="progress" aria-hidden="true"></div>
 
-    <!-- Top bar -->
-    <header class="topbar">
-      <div class="topbar-inner">
-        <nav aria-label="Main navigation">
-          <ul class="topnav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/about/">About</a></li>
-            <li><a href="/posts/">Writing</a></li>
-          </ul>
-        </nav>
-        <button class="search-btn" id="search-btn" aria-label="Search (⌘K)">
-          <span class="icon-ms" aria-hidden="true">search</span>
-          Search ⌘K
-        </button>
-        <div class="topbar-right">
-          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-            <span class="icon-ms theme-toggle-icon" aria-hidden="true">dark_mode</span>
-          </button>
-        </div>
-      </div>
-    </header>
+    {{ partial "topbar.html" (dict "active" "") }}
 
     <!-- Breadcrumb strip -->
     <div class="crumbs">
       <div class="crumbs-inner">
         <span class="crumbs-path">Writing / {{ .Date.Format "2006" }} / {{ .Title }}</span>
-        <a class="crumbs-back" href="/posts/"><span class="arrow icon-ms" aria-hidden="true">arrow_back</span> Back to all writing</a>
+        <a class="crumbs-back" href="/posts/"><span class="arrow" aria-hidden="true">{{ partial "icon.html" "arrow-left" }}</span> Back to all writing</a>
       </div>
     </div>
 
@@ -905,7 +886,7 @@
               {{- with $pages.Next . }}
               <a class="paginav-item prev" href="{{ .Permalink }}">
                 <span class="paginav-label">
-                  <span class="icon-ms" aria-hidden="true">arrow_back</span>
+                  {{ partial "icon.html" "arrow-left" }}
                   Previous
                 </span>
                 <span class="paginav-title">{{ .Title }}</span>
@@ -915,7 +896,7 @@
               <a class="paginav-item next" href="{{ .Permalink }}">
                 <span class="paginav-label">
                   Next
-                  <span class="icon-ms" aria-hidden="true">arrow_forward</span>
+                  {{ partial "icon.html" "arrow-right" }}
                 </span>
                 <span class="paginav-title">{{ .Title }}</span>
               </a>

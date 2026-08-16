@@ -128,23 +128,20 @@
       return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
 
-    function updateIcon() {
-      var icon = btn.querySelector('.theme-toggle-icon');
-      if (icon)
-        icon.textContent = isDark() ? 'light_mode' : 'dark_mode';
+    function updateLabel() {
       btn.setAttribute(
         'aria-label',
         isDark() ? 'Switch to light mode' : 'Switch to dark mode',
       );
     }
 
-    updateIcon();
+    updateLabel();
 
     btn.addEventListener('click', function () {
       var next = isDark() ? 'light' : 'dark';
       localStorage.setItem('theme', next);
       html.setAttribute('data-theme', next);
-      updateIcon();
+      updateLabel();
     });
   })();
 </script>

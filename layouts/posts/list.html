@@ -214,33 +214,7 @@
     </style>
   </head>
   <body>
-    <!-- Top bar -->
-    <header class="topbar">
-      <div class="topbar-inner">
-        <nav aria-label="Main navigation">
-          <ul class="topnav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/about/">About</a></li>
-            <li><a href="/posts/" class="active">Writing</a></li>
-          </ul>
-        </nav>
-        <button class="search-btn" id="search-btn" aria-label="Search (⌘K)">
-          <span class="icon-ms" aria-hidden="true">search</span>
-          Search ⌘K
-        </button>
-        <div class="topbar-right">
-          <button
-            class="theme-toggle"
-            id="theme-toggle"
-            aria-label="Toggle dark mode"
-          >
-            <span class="icon-ms theme-toggle-icon" aria-hidden="true"
-              >dark_mode</span
-            >
-          </button>
-        </div>
-      </div>
-    </header>
+    {{ partial "topbar.html" (dict "active" "posts") }}
 
     <div class="page">
       <!-- Page header -->

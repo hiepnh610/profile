@@ -13,7 +13,7 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
     {{ partial "home/head.html" . }}
   </head>
   <body>
-    {{ partial "home/topbar.html" . }}
+    {{ partial "topbar.html" (dict "active" "home") }}
 
     <div class="page">
       {{ partial "home/sidebar.html" (dict "totalPosts" $totalPosts "wordsThisYear" $wordsThisYear) }}
