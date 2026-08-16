@@ -85,30 +85,45 @@
       results.appendChild(frag);
     }
 
+    var fuseScript = null;
+    function loadFuse() {
+      if (typeof Fuse !== 'undefined') return Promise.resolve();
+      if (!fuseScript) {
+        fuseScript = new Promise(function (resolve, reject) {
+          var s = document.createElement('script');
+          s.src = '/js/fuse.min.js';
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      }
+      return fuseScript;
+    }
+
     async function loadData() {
       hint.textContent = 'Loading…';
       try {
-        var res = await fetch('/index.json');
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        var data = await res.json();
+        var loadedAll = await Promise.all([
+          fetch('/index.json').then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          }),
+          loadFuse(),
+        ]);
         loaded = true;
-        var poll = setInterval(function () {
-          if (typeof Fuse !== 'undefined') {
-            clearInterval(poll);
-            fuse = new Fuse(data, {
-              isCaseSensitive: false,
-              shouldSort: true,
-              location: 0,
-              distance: 1000,
-              threshold: 0.4,
-              minMatchCharLength: 2,
-              keys: ['title', 'permalink', 'summary', 'content'],
-            });
-            hint.textContent = 'Type to search';
-            if (input.value.trim()) doSearch();
-          }
-        }, 30);
+        fuse = new Fuse(loadedAll[0], {
+          isCaseSensitive: false,
+          shouldSort: true,
+          location: 0,
+          distance: 1000,
+          threshold: 0.4,
+          minMatchCharLength: 2,
+          keys: ['title', 'permalink', 'summary', 'content'],
+        });
+        hint.textContent = 'Type to search';
+        if (input.value.trim()) doSearch();
       } catch (e) {
+        fuseScript = null;
         hint.textContent = 'Search unavailable';
         console.error('Search:', e);
       }
