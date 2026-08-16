@@ -95,10 +95,6 @@ menu:
       name: About
       url: /about/
       weight: 30
-    - identifier: search
-      name: Search
-      url: /search/
-      weight: 40
 
 # JSON output enables Fuse.js search
 outputs:
