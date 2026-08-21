@@ -133,3 +133,5 @@ Fonts: `iA Writer Duospace` (body + code) · `Montserrat 700` (headings) — sel
 ## Commit Convention
 
 `feat:` · `fix:` · `ci:` · `chore:` · `style:`
+
+Do not add any Claude/agent signature or co-author footer to commit messages (e.g. no "🤖 Generated with Claude Code", no "Co-Authored-By: Claude").
