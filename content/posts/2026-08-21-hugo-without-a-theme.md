@@ -1,7 +1,7 @@
 ---
 title: "What a hand-rolled Hugo site looks like"
 date: 2026-08-21T00:00:00Z
-draft: true
+draft: false
 tags: ["dev", "writing"]
 description: "How this blog's Hugo project is structured, without a theme, and how it deploys to GitHub Pages on every push."
 dek: "How this blog's Hugo project is structured, without a theme, and how it deploys to GitHub Pages on every push."
