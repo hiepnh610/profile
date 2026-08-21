@@ -384,20 +384,17 @@
         line-height: 1.6;
       }
 
+      .post-content .highlight pre,
       .post-content .chroma {
         background: #0c0c0c;
         color: #f5f5f5;
-      }
-
-      .post-content .highlight pre,
-      .post-content .chroma pre {
-        background: transparent;
         margin: 0;
         padding: 18px 22px;
         overflow-x: auto;
         font-family: inherit;
         font-size: 13px;
         line-height: 1.6;
+        counter-reset: line;
       }
 
       .post-content .chroma code {
@@ -408,39 +405,23 @@
         color: inherit;
       }
 
-      /* Line number table */
-      .post-content .lntable {
-        width: 100%;
-        border-spacing: 0;
-        border-collapse: collapse;
+      /* Line numbers: generated per-line via counters, so the number can
+         never drift from its code line the way a parallel gutter column can. */
+      .post-content .chroma .line {
+        display: block;
+        position: relative;
+        padding-left: 2.5em;
       }
 
-      .post-content .lntd {
-        padding: 0;
-        vertical-align: top;
-      }
-
-      .post-content .lntd:first-child {
-        width: 1%;
-        white-space: nowrap;
-        padding-right: 0;
-        user-select: none;
-      }
-
-      .post-content .lntd:first-child pre {
-        padding-right: 0;
-      }
-
-      .post-content .lntd:last-child pre {
-        padding-left: 16px;
-      }
-
-      .post-content .lnt,
-      .post-content .ln {
+      .post-content .chroma .line::before {
+        counter-increment: line;
+        content: counter(line);
+        position: absolute;
+        left: 0;
+        width: 2em;
+        text-align: right;
         color: #555;
         user-select: none;
-        margin-right: 12px;
-        display: inline-block;
       }
 
       /* Chroma syntax tokens */

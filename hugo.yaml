@@ -31,10 +31,8 @@ markup:
       unsafe: true # allow raw HTML in Markdown
   highlight:
     noClasses: false # use external CSS (customisable)
-    anchorLineNos: true
     codeFences: true
     guessSyntax: true
-    lineNos: true
     style: dracula
 
 taxonomies:
