@@ -22,7 +22,7 @@ Create `content/posts/YYYY-MM-DD-slug.md` (date = today, slug = short kebab-case
 title: "Sentence case, plain words"   # like "SQLite is plenty" — no clickbait, no colons-with-subtitle
 date: YYYY-MM-DDT00:00:00Z
 draft: true                            # ALWAYS true; the author flips it when ready
-tags: ["dev"]                          # exactly ONE primary tag: dev | notes | meta
+tags: ["dev"]                          # exactly ONE primary tag: dev | meta | network
 description: "Meta description, ≤160 chars, states the post's claim."
 dek: "Listing summary shown on home/archive — usually same as description."
 showToc: false                         # true only for long technical posts with 4+ H2s

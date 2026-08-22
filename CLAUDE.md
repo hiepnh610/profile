@@ -88,7 +88,7 @@ YAML front matter:
 title: ""
 date: YYYY-MM-DD
 draft: false
-tags: ["dev"]          # dev | notes | meta
+tags: ["dev"]          # dev | meta | network
 description: ""        # meta description
 dek: ""                # listing summary (falls back to auto-truncated content)
 showToc: false
