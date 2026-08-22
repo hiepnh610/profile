@@ -13,9 +13,8 @@ minify:
   minifyOutput: true
 
 params:
-  env: production # gates GA4 + Fingerprint in layouts/partials/analytics.html
+  env: production # gates GA4 in layouts/partials/analytics.html
   googleAnalytics: 'G-B7WM914B75'
-  fingerprintPublicKey: 'wvM86WQROgppWTepFAFr'
   description: "Personal blog — thoughts on software engineering and things I'm building."
   author: 'Hiep Nguyen'
 

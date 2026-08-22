@@ -9,33 +9,3 @@
   gtag('config', '{{ $gaID }}');
 </script>
 {{- end -}}
-{{- $fpKey := .Site.Params.fingerprintPublicKey -}}
-{{- if and $isProd $fpKey -}}
-<script>
-  (function () {
-    var CACHE_KEY = 'fp_visitor';
-    var CACHE_TTL = 86400000; // 24 hours in ms
-    function sendToGA(visitorId) {
-      if (typeof gtag === 'function') {
-        gtag('set', 'user_properties', { fingerprint_visitor_id: visitorId });
-      }
-    }
-    try {
-      var cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
-      if (cached && Date.now() - cached.ts < CACHE_TTL) { sendToGA(cached.id); return; }
-    } catch (e) {}
-    var script = document.createElement('script');
-    script.src = 'https://fpjscdn.net/v3/{{ $fpKey }}/iife.min.js';
-    script.onload = function () {
-      FingerprintJS.load()
-        .then(function (fp) { return fp.get(); })
-        .then(function (result) {
-          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ id: result.visitorId, ts: Date.now() })); } catch (e) {}
-          sendToGA(result.visitorId);
-        })
-        .catch(function () {});
-    };
-    document.head.appendChild(script);
-  })();
-</script>
-{{- end -}}
