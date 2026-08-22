@@ -1,8 +1,20 @@
-<pre class="mermaid" tabindex="0" role="button" aria-label="Click to enlarge diagram">
-  {{- .Inner | safeHTML }}
+{{- /* Diagrams are pre-rendered to assets/mermaid/<md5>.svg by
+     `node tools/prerender-mermaid.mjs` (run it after adding/editing a diagram,
+     commit the SVGs). When the hash matches, the SVG is inlined — zero JS, no
+     layout shift, crawlable text; its colors are CSS vars so theme toggling
+     still works. When it doesn't match, the block falls back to client-side
+     rendering via the 1.6 MB beautiful-mermaid bundle. */ -}}
+{{- $src := trim .Inner " \n\t\r" -}}
+{{- $svg := resources.Get (printf "mermaid/%s.svg" (md5 $src)) -}}
+{{- if $svg -}}
+<pre class="mermaid" tabindex="0" role="button" aria-label="Click to enlarge diagram">{{ $svg.Content | safeHTML }}</pre>
+{{- else -}}
+<pre class="mermaid" data-render tabindex="0" role="button" aria-label="Click to enlarge diagram">
+  {{- $src | safeHTML }}
 </pre>
-{{- if not (.Page.Scratch.Get "mermaidLoaded") }}
-{{- .Page.Scratch.Set "mermaidLoaded" true }}
+{{- end -}}
+{{- if not (.Page.Scratch.Get "mermaidAssets") }}
+{{- .Page.Scratch.Set "mermaidAssets" true }}
 <style>
   pre.mermaid {
     background: transparent;
@@ -73,35 +85,7 @@
     <div id="mermaid-modal-body"></div>
   </div>
 </dialog>
-{{/* beautiful-mermaid (self-hosted, MIT) — replacement renderer for mermaid
-     syntax. Supports flowchart, sequence, state, class, ER, and XY charts
-     only. Bundle built from beautiful-mermaid@1.1.3 + deps via:
-     npx esbuild node_modules/beautiful-mermaid/dist/index.js --bundle --minify --format=esm
-     with one patch applied to dist/index.js before bundling: measureTextWidth
-     rewritten for iA Writer Duospace metrics (all glyphs 0.6em; M W m w and
-     accented forms + em-dash 0.9em, per the woff2 hmtx tables) — upstream
-     hardcodes Inter's proportional ratios, which undersizes node boxes and
-     makes labels overlap arrowheads. Re-apply if the bundle is ever rebuilt. */}}
 <script type="module">
-  import { renderMermaidSVG } from '/js/beautiful-mermaid.min.js';
-
-  document.querySelectorAll('pre.mermaid').forEach(function (el) {
-    try {
-      var svg = renderMermaidSVG(el.textContent.trim(), {
-        bg: 'var(--paper)',
-        fg: 'var(--ink)',
-        accent: 'var(--link)',
-        font: 'iA Writer Duospace',
-        transparent: true,
-      });
-      // The renderer hardcodes a Google Fonts @import; fonts are self-hosted,
-      // so drop it before the SVG hits the DOM.
-      el.innerHTML = svg.replace(/@import url\([^)]*\);/g, '');
-    } catch (e) {
-      // Leave the raw diagram source visible if rendering fails.
-    }
-  });
-
   var modal = document.getElementById('mermaid-modal');
   var modalBody = document.getElementById('mermaid-modal-body');
 
@@ -126,6 +110,38 @@
 
   modal.addEventListener('click', function (e) {
     if (e.target === modal) modal.close();
+  });
+</script>
+{{- end }}
+{{- if and (not $svg) (not (.Page.Scratch.Get "mermaidRuntime")) }}
+{{- .Page.Scratch.Set "mermaidRuntime" true }}
+{{/* beautiful-mermaid (self-hosted, MIT) — replacement renderer for mermaid
+     syntax. Supports flowchart, sequence, state, class, ER, and XY charts
+     only. Bundle built from beautiful-mermaid@1.1.3 + deps via:
+     npx esbuild node_modules/beautiful-mermaid/dist/index.js --bundle --minify --format=esm
+     with one patch applied to dist/index.js before bundling: measureTextWidth
+     rewritten for iA Writer Duospace metrics (all glyphs 0.6em; M W m w and
+     accented forms + em-dash 0.9em, per the woff2 hmtx tables) — upstream
+     hardcodes Inter's proportional ratios, which undersizes node boxes and
+     makes labels overlap arrowheads. Re-apply if the bundle is ever rebuilt. */}}
+<script type="module">
+  import { renderMermaidSVG } from '/js/beautiful-mermaid.min.js';
+
+  document.querySelectorAll('pre.mermaid[data-render]').forEach(function (el) {
+    try {
+      var svg = renderMermaidSVG(el.textContent.trim(), {
+        bg: 'var(--paper)',
+        fg: 'var(--ink)',
+        accent: 'var(--link)',
+        font: 'iA Writer Duospace',
+        transparent: true,
+      });
+      // The renderer hardcodes a Google Fonts @import; fonts are self-hosted,
+      // so drop it before the SVG hits the DOM.
+      el.innerHTML = svg.replace(/@import url\([^)]*\);/g, '');
+    } catch (e) {
+      // Leave the raw diagram source visible if rendering fails.
+    }
   });
 </script>
 {{- end }}
