@@ -31,38 +31,43 @@ flowchart TD
         RTR === SW[Managed switch]
     end
 
-    SW --> V15[VLAN 15 · Management]
-    SW --> V25[VLAN 25 · Wifi Internal]
-    SW --> V35[VLAN 35 · CCTV]
-    SW --> V45[VLAN 45 · Core / DNS]
-    SW --> V55[VLAN 55 · Wifi Guest]
-    SW --> V65[VLAN 65 · IoT]
+    SW --> V10[VLAN 10 · Management]
+    SW --> V20[VLAN 20 · Wifi Internal]
+    SW --> V30[VLAN 30 · CCTV]
+    SW --> V40[VLAN 40 · Core / DNS]
+    SW --> V50[VLAN 50 · Wifi Guest]
+    SW --> V60[VLAN 60 · IoT]
 
-    V15 --> INF[Switches + AP controllers]
-    V25 --> TRUST[Trusted wifi clients]
-    V35 --> CAM[Cameras + NVR]
-    V45 --> DNS[AdGuard resolvers x2]
-    V55 --> GUEST[Guest devices]
-    V65 --> IOT[Smart plugs, sensors, TVs]
+    V10 --> INF[Switches + AP controllers]
+    V20 --> TRUST[Trusted wifi clients]
+    V30 --> CAM[Cameras + NVR]
+    V40 --> DNS[AdGuard resolvers x2]
+    V50 --> GUEST[Guest devices]
+    V60 --> IOT[Smart plugs, sensors, TVs]
 
     classDef isolated fill:#4a2626,stroke:#b35c5c,color:#f3dede
-    class V55,V65,GUEST,IOT isolated
+    class V50,V60,GUEST,IOT isolated
 {{< /mermaid >}}
 
 | VLAN | Subnet | Purpose |
 |------|--------|---------|
-| 15 | `172.20.15.0/24` | Switch and AP management |
-| 25 | `172.20.25.0/24` | Trusted wifi |
-| 35 | `172.20.35.0/24` | Cameras + NVR |
-| 45 | `172.20.45.0/24` | Core services (DNS) |
-| 55 | `172.20.55.0/24` | Guest wifi |
-| 65 | `172.20.65.0/24` | IoT |
+| 10 | `10.0.10.0/24` | Switch and AP management |
+| 20 | `10.0.20.0/24` | Trusted wifi |
+| 30 | `10.0.30.0/24` | Cameras + NVR |
+| 40 | `10.0.40.0/24` | Core services (DNS) |
+| 50 | `10.0.50.0/24` | Guest wifi |
+| 60 | `10.0.60.0/24` | IoT |
 
-The router-to-switch uplink is a 3-port LACP bond (`802.3ad`, layer-2-and-3 hashing). That's not really about throughput — nobody in this house is pushing 3 Gbit — it's so one bad cable or a dying port doesn't take every VLAN down with it. WAN comes in as PPPoE on its own VLAN off the fiber ONT, and I keep it off the trunk entirely so it's not sharing a wire with anything internal.
+The router-to-switch uplink is a 3-port LACP bond (`802.3ad`, layer-2-and-3 hashing). That's not really about throughput — nobody in this house is pushing 3 Gbit — it's so one bad cable or a dying port doesn't take every VLAN down with it. WAN comes in as PPPoE on VLAN 35 off the fiber ONT, on its own physical port — I keep it off the trunk entirely so it's not sharing a wire with anything internal.
+
+<figure>
+  <img src="/images/posts/home-network-vlan-design/winbox-vlan-interfaces.webp" alt="WinBox Interfaces window listing the six internal VLAN interfaces on the trunk — VLAN-10-MGMT, VLAN-20-WIFI-INTERNAL, VLAN-30-CCTV, VLAN-40-CORE, VLAN-50-WIFI-GUEST, VLAN-60-IOT — plus VLAN35 for WAN on a separate port" width="2000" height="360" loading="lazy">
+  <figcaption>The six internal VLANs in WinBox, all riding the trunk — and the WAN PPPoE VLAN on its own port at the bottom.</figcaption>
+</figure>
 
 ## How wifi lands on the VLANs
 
-Wireless devices don't get to pick their VLAN — the SSID does it for them. The access points broadcast two networks: the trusted one is tagged onto VLAN 25 at the AP, and the guest one onto VLAN 55, so a phone joining guest wifi comes out of the AP already inside the guest segment with no say in the matter. The APs themselves are managed over VLAN 15 like the rest of the infrastructure, and the switch ports feeding them are trunks carrying exactly those three VLANs and nothing else.
+Wireless devices don't get to pick their VLAN — the SSID does it for them. The access points broadcast two networks: the trusted one is tagged onto VLAN 20 at the AP, and the guest one onto VLAN 50, so a phone joining guest wifi comes out of the AP already inside the guest segment with no say in the matter. The APs themselves are managed over VLAN 10 like the rest of the infrastructure, and the switch ports feeding them are trunks carrying exactly those three VLANs and nothing else.
 
 That's the short version. The AP-side config — which VLANs to tag where, and keeping the management network reachable while you change it — has enough sharp edges that it deserves its own post.
 
@@ -72,16 +77,21 @@ Honestly, the VLAN split isn't the part that matters. VLANs by themselves are ju
 
 ```
 add action=accept chain=forward comment="IOT DNS UDP to AdGuard" \
-    dst-address=172.20.45.199 dst-port=53 protocol=udp src-address=172.20.65.0/24
+    dst-address=10.0.40.199 dst-port=53 protocol=udp src-address=10.0.60.0/24
 add action=accept chain=forward comment="IOT Internet Access" \
-    out-interface=pppoe-out1 src-address=172.20.65.0/24
+    out-interface=pppoe-out1 src-address=10.0.60.0/24
 add action=drop chain=forward comment="Drop everything else from IOT" \
-    src-address=172.20.65.0/24
+    src-address=10.0.60.0/24
 ```
 
 DNS to the internal resolver gets through, outbound to the internet gets through, and then a drop rule catches whatever's left. There are two more rules I didn't paste above that do the same thing for traffic between devices on the same VLAN and for traffic aimed at the router's own management interface. Net effect: a camera or a smart bulb can phone home and resolve DNS, full stop. It can't reach my laptop, it can't reach my NAS, it can't open the router's web UI, and it can't even talk to the smart bulb sitting right next to it.
 
 There's exactly one hole I punched in that wall on purpose — the living room TV, sitting on the IoT VLAN, is allowed to hit a Jellyfin server on the management VLAN over port 8096. Everything else stays shut unless I decide it shouldn't. I like that this forces the ruleset to double as documentation: if I read it in six months, every exception has a comment explaining why it's there, instead of me trying to remember what "isolate IoT" was supposed to mean.
+
+<figure>
+  <img src="/images/posts/home-network-vlan-design/winbox-firewall-rules.webp" alt="WinBox firewall filter rules list: commented accept rules letting Guest and IoT reach the two AdGuard resolvers on port 53 and the internet via PPPoE, drop-everything-else rules for each VLAN, WAN-side drops for WinBox and HTTP management, and a single Allow TV to Jellyfin exception on port 8096" width="2000" height="916" loading="lazy">
+  <figcaption>The full ruleset. Every accept and drop carries a comment — including the one deliberate hole, "Allow TV to Jellyfin".</figcaption>
+</figure>
 
 ## DNS as the one thing every VLAN needs
 
