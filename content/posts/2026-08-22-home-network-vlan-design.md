@@ -12,6 +12,13 @@ For years my home network was just one flat `/24`. Laptop, NAS, phones, whatever
 
 So I split it up. One VLAN per trust level, and a firewall that treats every VLAN as hostile to every other VLAN until I say otherwise.
 
+Before you start down this road, you'll want:
+
+- a router that does 802.1Q VLAN tagging and gives you real firewall rules — mine is a MikroTik running RouterOS
+- a managed switch, so VLANs can be split back out to physical ports
+- access points that can tag SSIDs onto VLANs, if wifi devices are going to land on different segments
+- a way back in when you inevitably lock yourself out — for MikroTik that's WinBox over MAC address, or worst case a console cable
+
 ## The layout
 
 Six VLANs, all trunked over a single physical uplink, split out again on a switch:
@@ -52,6 +59,12 @@ flowchart TD
 | 65 | `172.20.65.0/24` | IoT |
 
 The router-to-switch uplink is a 3-port LACP bond (`802.3ad`, layer-2-and-3 hashing). That's not really about throughput — nobody in this house is pushing 3 Gbit — it's so one bad cable or a dying port doesn't take every VLAN down with it. WAN comes in as PPPoE on its own VLAN off the fiber ONT, and I keep it off the trunk entirely so it's not sharing a wire with anything internal.
+
+## How wifi lands on the VLANs
+
+Wireless devices don't get to pick their VLAN — the SSID does it for them. The access points broadcast two networks: the trusted one is tagged onto VLAN 25 at the AP, and the guest one onto VLAN 55, so a phone joining guest wifi comes out of the AP already inside the guest segment with no say in the matter. The APs themselves are managed over VLAN 15 like the rest of the infrastructure, and the switch ports feeding them are trunks carrying exactly those three VLANs and nothing else.
+
+That's the short version. The AP-side config — which VLANs to tag where, and keeping the management network reachable while you change it — has enough sharp edges that it deserves its own post.
 
 ## Default deny, not default allow
 

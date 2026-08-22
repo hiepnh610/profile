@@ -8,7 +8,16 @@ dek: "A docker-compose file for AdGuard Home, why its ports look strange, and wh
 showToc: true
 ---
 
+AdGuard Home is a DNS server you run yourself: every device on your network sends its DNS queries to it, and it answers them — except for ad and tracker domains, which it refuses to resolve at all. Same job as Pi-hole; I went with AdGuard Home mainly because encrypted DNS (DNS-over-TLS and DNS-over-QUIC) is built in on both the client and upstream side rather than something you bolt on afterwards.
+
 When I [split my home network into VLANs]({{< ref "2026-08-22-home-network-vlan-design.md" >}}), I mentioned a pair of AdGuard Home resolvers sitting on the core VLAN and left it at that. Here's the actual compose file behind them, and the handful of decisions in it that weren't obvious to me the first time.
+
+Before you start, you'll want:
+
+- a host with Docker and `docker compose` on it
+- port 53 free on that host — on Ubuntu, `systemd-resolved` sits on it by default and has to be moved aside first
+- a static IP (or DHCP reservation) for the host, since everything on your network is about to memorize it
+- access to whatever hands out DHCP, so you can point clients at the new resolver when you're done
 
 ## Where it sits
 

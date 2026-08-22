@@ -99,6 +99,11 @@
     color: var(--muted);
     white-space: nowrap;
     transition: color 150ms ease;
+    /* 44px-tall tap target without changing the visual layout:
+       padding grows the hit area, negative margin cancels it out */
+    display: inline-block;
+    padding: 13px 6px;
+    margin: -13px -6px;
   }
 
   .topnav a:hover,
@@ -125,7 +130,8 @@
     color: var(--muted);
     background: transparent;
     border: none;
-    padding: 4px 6px;
+    padding: 13px 8px;
+    margin: -9px -2px; /* keeps the 4px 6px visual footprint; hit area ~43px tall */
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -152,7 +158,8 @@
     background: transparent;
     border: none;
     border-radius: 6px;
-    padding: 5px 8px;
+    padding: 13px 12px;
+    margin: -8px -4px; /* keeps the 5px 8px visual footprint; hit area 44px tall */
     cursor: pointer;
     line-height: 1;
     display: inline-flex;
