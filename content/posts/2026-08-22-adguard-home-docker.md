@@ -28,7 +28,7 @@ flowchart TD
     DEV[Laptop, phone, TV, IoT device] -->|DNS query| ADG1[AdGuard Home primary]
     DEV -.->|if primary is unreachable| ADG2[AdGuard Home secondary]
 
-    ADG1 -->|allowed domain| UP[Upstream resolver, DNS-over-TLS]
+    ADG1 -->|allowed domain| UP[Upstream resolver, DNS-over-HTTPS]
     ADG1 -->|ad / tracker domain| DROP[NXDOMAIN, no forward]
     UP --> WAN((Internet))
 
@@ -90,9 +90,24 @@ The two read-only bind mounts for `/etc/timezone` and `/etc/localtime` stay as b
 
 Finish the wizard and it redirects you to log in on the port you just chose, over the 8888 mapping from then on. 8889 goes quiet at that point, which is the whole reason it turns into dead weight in the compose file afterward.
 
-From the login screen, the two things worth changing before you trust a resolver with real traffic are under Settings. Upstream DNS servers defaults to a public resolver over plain DNS; I switch it to DNS-over-TLS servers instead, since AdGuard Home is now the only thing standing between my LAN and the wider internet and I'd rather that hop be encrypted. And under Filters, the default AdGuard blocklist is on but sparse by itself — I add one or two more lists there before pointing any real client at it, otherwise the first few days make the whole exercise feel pointless.
+<figure>
+  <img src="/images/posts/adguard-home-docker/login.webp" alt="AdGuard Home login page served at 10.0.40.199 on port 8888, with username and password fields" width="2000" height="993" loading="lazy">
+  <figcaption>Post-wizard life: the real web UI on the 8888 mapping. The 8889 wizard port never answers again.</figcaption>
+</figure>
+
+From the login screen, the two things worth changing before you trust a resolver with real traffic are under Settings. Upstream DNS servers defaults to a public resolver over plain DNS; I point it at an encrypted upstream instead — mine is a DNS-over-HTTPS endpoint on Cloudflare Gateway — since AdGuard Home is now the only thing standing between my LAN and the wider internet and I'd rather that hop be encrypted. And under Filters, the default AdGuard blocklist is on but sparse by itself — I add one or two more lists there before pointing any real client at it, otherwise the first few days make the whole exercise feel pointless.
+
+<figure>
+  <img src="/images/posts/adguard-home-docker/dns-upstream.webp" alt="AdGuard Home DNS settings page with a single DNS-over-HTTPS upstream configured, a Cloudflare Gateway dns-query URL" width="2000" height="993" loading="lazy">
+  <figcaption>Settings → DNS: one encrypted upstream, nothing over plain port 53 leaves the house.</figcaption>
+</figure>
 
 Everything past that first login (query log, client-specific rules, the dashboard) is just using the product. The wizard is the only part that's a one-time thing.
+
+<figure>
+  <img src="/images/posts/adguard-home-docker/dashboard.webp" alt="AdGuard Home dashboard showing 1.5 million DNS queries in 30 days, 295 thousand blocked by filters, and top clients from the 10.0.20.x and 10.0.30.x VLANs" width="2000" height="994" loading="lazy">
+  <figcaption>A month of the house asking questions: 1.5M queries, ~19% blocked — and the top-clients list is the VLAN design working, with wifi and CCTV devices resolving across segments.</figcaption>
+</figure>
 
 ## Two containers, one file, no orchestration
 
