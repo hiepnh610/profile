@@ -1,8 +1,8 @@
 {{- $posts := where .Site.RegularPages "Section" "posts" -}} {{- $sorted := sort
 $posts "Date" "desc" -}} {{- $featuredSlice := where $sorted "Params.featured"
 true -}} {{- $featured := index $featuredSlice 0 -}} {{- if not $featured }}{{-
-$featured = index $sorted 0 -}}{{- end -}} {{- $nonFeatured := where $sorted
-"Params.featured" "!=" true -}} {{- $recent := first 8 $nonFeatured -}} {{-
+$featured = index $sorted 0 -}}{{- end -}} {{- $nonFeatured := $sorted -}} {{- with $featured -}}{{-
+$nonFeatured = complement (slice $featured) $sorted -}}{{- end -}} {{- $recent := first 8 $nonFeatured -}} {{-
 $totalPosts := len $posts -}} {{- $currentYear := now.Year -}} {{-
 $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
 := 0 -}} {{- range $postsThisYear -}}{{- $wordsThisYear = add $wordsThisYear
