@@ -17,7 +17,7 @@ So I split it up. One VLAN per trust level, and a firewall that treats every VLA
 Six VLANs, all trunked over a single physical uplink, split out again on a switch:
 
 {{< mermaid >}}
-flowchart LR
+flowchart TD
     WAN((Internet)) -- PPPoE --> RTR[MikroTik router]
 
     subgraph LAN["LACP bond — 3x1G trunk"]
