@@ -46,7 +46,6 @@ Shared pieces — the topbar, the search modal, font preloads, the CSS design to
 params:
   env: production               # gates GA4 in analytics.html
   googleAnalytics: 'G-XXXXXXX'
-  fingerprintPublicKey: '...'
   description: "..."
   author: 'Hiep Nguyen'
 ```
