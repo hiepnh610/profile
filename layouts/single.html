@@ -470,6 +470,7 @@
         height: auto;
         margin: 0 auto;
         display: block;
+        cursor: zoom-in;
       }
 
       .post-content figure figcaption {
@@ -478,6 +479,69 @@
         color: var(--muted);
         text-align: center;
         margin-top: 8px;
+      }
+
+      /* ── Image lightbox ── */
+      #img-modal {
+        border: 1px solid var(--rule);
+        padding: 0;
+        width: min(1100px, calc(100vw - 32px));
+        max-height: 90vh;
+        background: var(--paper);
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.14);
+        margin: auto;
+      }
+
+      #img-modal::backdrop {
+        background: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+      }
+
+      .img-modal-box {
+        display: flex;
+        flex-direction: column;
+        max-height: 90vh;
+      }
+
+      #img-modal-close {
+        align-self: flex-end;
+        background: none;
+        border: none;
+        font-family: inherit;
+        font-size: 13px;
+        color: var(--muted);
+        padding: 14px 20px 0;
+        cursor: pointer;
+      }
+
+      #img-modal-close:hover {
+        color: var(--ink);
+      }
+
+      #img-modal-body {
+        overflow: auto;
+        padding: 12px 32px 32px;
+        text-align: center;
+      }
+
+      #img-modal-body img {
+        max-width: 100%;
+        max-height: 75vh;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+      }
+
+      #img-modal-caption {
+        font-family: inherit;
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 12px;
+      }
+
+      #img-modal-caption:empty {
+        display: none;
       }
 
       /* Horizontal rule */
@@ -946,6 +1010,54 @@
     </footer>
 
     {{ partial "search-modal.html" . }}
+
+    <dialog id="img-modal" aria-label="Enlarged image">
+      <div class="img-modal-box">
+        <button type="button" id="img-modal-close" aria-label="Close">✕ Close</button>
+        <div id="img-modal-body">
+          <img id="img-modal-img" src="" alt="" />
+          <p id="img-modal-caption"></p>
+        </div>
+      </div>
+    </dialog>
+
+    <script>
+      /* Image lightbox */
+      (function () {
+        var modal = document.getElementById('img-modal');
+        var modalImg = document.getElementById('img-modal-img');
+        var modalCaption = document.getElementById('img-modal-caption');
+        var imgs = document.querySelectorAll('.post-content img');
+        if (!modal || !imgs.length) return;
+
+        function openModal(img) {
+          modalImg.src = img.currentSrc || img.src;
+          modalImg.alt = img.alt || '';
+          modalCaption.textContent = img.alt || '';
+          modal.showModal();
+        }
+
+        imgs.forEach(function (img) {
+          img.tabIndex = 0;
+          img.title = 'Click to enlarge image';
+          img.addEventListener('click', function () { openModal(img); });
+          img.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              openModal(img);
+            }
+          });
+        });
+
+        document.getElementById('img-modal-close').addEventListener('click', function () {
+          modal.close();
+        });
+
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) modal.close();
+        });
+      }());
+    </script>
 
     <script>
       /* Reading progress bar */
