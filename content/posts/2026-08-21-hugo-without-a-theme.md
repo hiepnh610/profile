@@ -1,5 +1,5 @@
 ---
-title: "What a hand-rolled Hugo site looks like"
+title: "Hugo without a theme: what a hand-rolled site looks like"
 date: 2026-08-21T00:00:00Z
 draft: false
 tags: ["dev", "writing"]

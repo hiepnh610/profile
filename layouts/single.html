@@ -230,6 +230,7 @@
       }
 
       .byline b { color: var(--ink); }
+      .byline a:hover b { text-decoration: underline; }
       .byline .sep { color: var(--quiet); }
       .byline .wc { margin-left: auto; }
 
@@ -707,11 +708,12 @@
     </style>
     {{/* ── Open Graph / Social ── */}}
     {{- $ogDesc := .Description | default (.Summary | plainify | truncate 200) -}}
+    {{- $ogImage := .Params.image | default "/images/og-default.jpg" | absURL -}}
     <meta property="og:type" content="{{ if eq .Section "posts" }}article{{ else }}website{{ end }}" />
     <meta property="og:url" content="{{ .Permalink }}" />
     <meta property="og:title" content="{{ .Title }} · {{ site.Title }}" />
     <meta property="og:description" content="{{ $ogDesc }}" />
-    <meta property="og:image" content="{{ "/images/og-default.jpg" | absURL }}" />
+    <meta property="og:image" content="{{ $ogImage }}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="{{ .Title }} · {{ site.Title }}" />
@@ -726,7 +728,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{{ .Title }} · {{ site.Title }}" />
     <meta name="twitter:description" content="{{ $ogDesc }}" />
-    <meta name="twitter:image" content="{{ "/images/og-default.jpg" | absURL }}" />
+    <meta name="twitter:image" content="{{ $ogImage }}" />
     {{/* ── Structured Data ── */}}
     {{ if eq .Section "posts" -}}
     {{- $desc := .Summary | plainify | truncate 160 -}}
@@ -739,6 +741,7 @@
       "headline": "{{ .Title }}",
       "description": "{{ $desc }}",
       "url": "{{ .Permalink }}",
+      "image": ["{{ $ogImage }}"],
       "datePublished": "{{ .Date.Format `2006-01-02T15:04:05Z07:00` }}",
       "dateModified": "{{ .Lastmod.Format `2006-01-02T15:04:05Z07:00` }}",
       "wordCount": {{ .WordCount }},
@@ -791,6 +794,30 @@
       ]
     }
     </script>
+    {{- else if eq .RelPermalink "/about/" }}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      "@id": "{{ .Permalink }}",
+      "url": "{{ .Permalink }}",
+      "name": "{{ .Title }} · {{ site.Title }}",
+      "mainEntity": {
+        "@type": "Person",
+        "@id": "{{ site.BaseURL }}#person"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.BaseURL }}" },
+        { "@type": "ListItem", "position": 2, "name": "About", "item": "{{ .Permalink }}" }
+      ]
+    }
+    </script>
     {{- end }}
   </head>
   <body>
@@ -830,7 +857,7 @@
             <p class="standfirst">{{ . }}</p>
             {{- end }}
             <div class="byline">
-              <b>{{ site.Params.author | default "Hiep Nguyen" }}</b>
+              <a href="/about/"><b>{{ site.Params.author | default "Hiep Nguyen" }}</b></a>
               <span class="sep" aria-hidden="true">·</span>
               <span>Hanoi, Vietnam</span>
               <span class="wc">{{ .WordCount }} words</span>
@@ -869,7 +896,11 @@
             <div class="author-card">
               <div class="author-info">
                 <p class="author-name">{{ site.Params.author | default "Hiep Nguyen" }}</p>
-                <p class="author-bio">Software engineer in Hanoi. Writing about things I'm building and lessons learned along the way.</p>
+                <p class="author-bio" style="margin-bottom: 8px">Software engineer in Hanoi. Writing about things I'm building and lessons learned along the way.</p>
+                <nav class="author-links" aria-label="Author links">
+                  <a href="/about/">About</a>
+                  <a href="https://github.com/hiepnh610" rel="me">GitHub</a>
+                </nav>
               </div>
             </div>
 
@@ -906,6 +937,7 @@
       <div class="footer-inner">
         <p class="footer-left">© {{ now.Year }} {{ site.Params.author | default "Hiep Nguyen" }} · thoughts on software and building</p>
         <nav class="footer-right" aria-label="Footer navigation">
+          <a href="https://github.com/hiepnh610" rel="me">GitHub</a>
           <a href="/sitemap.xml">Sitemap</a>
         </nav>
       </div>

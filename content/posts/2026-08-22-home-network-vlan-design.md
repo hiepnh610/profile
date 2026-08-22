@@ -1,5 +1,5 @@
 ---
-title: "How I segmented my home network with VLANs"
+title: "How I segmented my home network with VLANs on MikroTik"
 date: 2026-08-22T00:00:00Z
 draft: false
 tags: ["network"]
@@ -72,7 +72,7 @@ There's exactly one hole I punched in that wall on purpose — the living room T
 
 ## DNS as the one thing every VLAN needs
 
-Every VLAN's DHCP server hands out the same two DNS servers instead of the ISP's resolver or `8.8.8.8` — a pair of AdGuard Home instances sitting on the core VLAN. Those `accept ... dst-port=53` rules above exist because of this: DNS is the one thing I let guest and IoT traffic reach across VLANs, and routing it through AdGuard means ad and telemetry domains get filtered before they ever leave the house, no matter which VLAN asked.
+Every VLAN's DHCP server hands out the same two DNS servers instead of the ISP's resolver or `8.8.8.8` — [a pair of AdGuard Home instances I run in Docker]({{< ref "2026-08-22-adguard-home-docker.md" >}}), sitting on the core VLAN. Those `accept ... dst-port=53` rules above exist because of this: DNS is the one thing I let guest and IoT traffic reach across VLANs, and routing it through AdGuard means ad and telemetry domains get filtered before they ever leave the house, no matter which VLAN asked.
 
 ## Hardening the router itself
 
