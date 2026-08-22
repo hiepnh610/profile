@@ -1,0 +1,12 @@
+{{- /* render-image.html — every markdown image gets lazy loading + async decode.
+     Page-bundle images also get width/height so the browser reserves space
+     (no layout shift); /static/ images have no accessible dimensions. */ -}}
+{{- $img := .Page.Resources.Get .Destination -}}
+<img
+  src="{{ .Destination | safeURL }}"
+  alt="{{ .Text }}"
+  {{- with .Title }} title="{{ . }}"{{ end }}
+  {{- with $img }} width="{{ .Width }}" height="{{ .Height }}"{{ end }}
+  loading="lazy"
+  decoding="async"
+/>

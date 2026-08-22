@@ -3,6 +3,7 @@ locale: 'en-us'
 title: 'Hiep Nguyen'
 
 enableRobotsTXT: true
+enableGitInfo: true # real lastmod for sitemap + JSON-LD dateModified (CI checkout uses fetch-depth: 0)
 buildDrafts: false
 buildFuture: false
 buildExpired: false
