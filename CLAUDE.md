@@ -72,7 +72,7 @@ Used by home head, `layouts/single.html`, and `layouts/posts/list.html` — edit
 `layouts/single.html` renders ALL single pages (posts, /about/) — not just posts. `layouts/posts/list.html` renders the archive; `layouts/taxonomy.html` / `layouts/term.html` render /tags/ and /tags/<tag>/; `layouts/404.html` is the GitHub Pages not-found page. All are standalone documents composing the shared partials above.
 
 ### Shortcodes
-`layouts/shortcodes/mermaid.html` — renders Mermaid diagrams in posts (self-hosted `/static/js/mermaid.min.js`, loaded once per page via `.Page.Scratch`).
+`layouts/shortcodes/mermaid.html` — renders Mermaid diagrams in posts via [beautiful-mermaid](https://github.com/lukilabs/beautiful-mermaid) (self-hosted `/static/js/beautiful-mermaid.min.js`, loaded once per page via `.Page.Scratch`). Supported diagram types ONLY: flowchart, sequence, state, class, ER, XY chart — no pie/gantt/mindmap/timeline/gitgraph. Colors derive from the site design tokens (`--paper`/`--ink`), so diagrams follow theme toggles with no re-render.
 
 ### Third-party policy
 Everything is self-hosted (`/static/fonts/`, `/static/js/`) — no CDN, no Google Fonts. The ONLY external requests are GA4 (`googletagmanager.com`) and Fingerprint.js (`fpjscdn.net`), both in `layouts/partials/analytics.html`. Icons are inline SVG via `layouts/partials/icon.html` — do not add icon fonts.

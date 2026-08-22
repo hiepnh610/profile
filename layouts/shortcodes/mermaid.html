@@ -16,137 +16,36 @@
 
   .mermaid svg {
     max-width: 100%;
-  }
-
-  .mermaid .node rect,
-  .mermaid .node polygon,
-  .mermaid .node circle,
-  .mermaid .cluster rect {
-    rx: 8px;
-    ry: 8px;
-    stroke-width: 1.25px;
-  }
-
-  .mermaid .nodeLabel {
-    font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-  }
-
-  .mermaid .edgeLabel {
-    font-size: 13px;
-  }
-
-  .mermaid .edgePath .path {
-    stroke-width: 1.5px;
-  }
-
-  .mermaid marker path {
-    stroke-width: 1px;
+    height: auto;
   }
 </style>
-<script src="/js/mermaid.min.js"></script>
-<script>
-  (function () {
-    var FONT = "'iA Writer Duospace', 'Courier New', monospace";
+{{/* beautiful-mermaid (self-hosted, MIT) — replacement renderer for mermaid
+     syntax. Supports flowchart, sequence, state, class, ER, and XY charts
+     only. Bundle built from beautiful-mermaid@1.1.3 + deps via:
+     npx esbuild node_modules/beautiful-mermaid/dist/index.js --bundle --minify --format=esm
+     with one patch applied to dist/index.js before bundling: measureTextWidth
+     rewritten for iA Writer Duospace metrics (all glyphs 0.6em; M W m w and
+     accented forms + em-dash 0.9em, per the woff2 hmtx tables) — upstream
+     hardcodes Inter's proportional ratios, which undersizes node boxes and
+     makes labels overlap arrowheads. Re-apply if the bundle is ever rebuilt. */}}
+<script type="module">
+  import { renderMermaidSVG } from '/js/beautiful-mermaid.min.js';
 
-    var LIGHT = {
-      background: 'transparent',
-      primaryColor: '#e6e6e2',
-      primaryTextColor: '#333333',
-      primaryBorderColor: '#cccccc',
-      secondaryColor: '#e9e9e5',
-      secondaryTextColor: '#333333',
-      secondaryBorderColor: '#cccccc',
-      tertiaryColor: '#e9e9e5',
-      tertiaryTextColor: '#333333',
-      tertiaryBorderColor: '#cccccc',
-      lineColor: '#666666',
-      textColor: '#333333',
-      mainBkg: '#e6e6e2',
-      nodeBorder: '#cccccc',
-      clusterBkg: '#e9e9e5',
-      clusterBorder: '#cccccc',
-      defaultLinkColor: '#666666',
-      titleColor: '#111111',
-      edgeLabelBackground: '#f8f8f6',
-      nodeTextColor: '#333333',
-      fontFamily: FONT,
-      fontSize: '15px',
-    };
-
-    var DARK = {
-      background: 'transparent',
-      primaryColor: '#2a2a27',
-      primaryTextColor: '#c9c9c4',
-      primaryBorderColor: '#3d3d39',
-      secondaryColor: '#262624',
-      secondaryTextColor: '#c9c9c4',
-      secondaryBorderColor: '#3d3d39',
-      tertiaryColor: '#262624',
-      tertiaryTextColor: '#c9c9c4',
-      tertiaryBorderColor: '#3d3d39',
-      lineColor: '#999999',
-      textColor: '#c9c9c4',
-      mainBkg: '#2a2a27',
-      nodeBorder: '#3d3d39',
-      clusterBkg: '#262624',
-      clusterBorder: '#3d3d39',
-      defaultLinkColor: '#999999',
-      titleColor: '#ededea',
-      edgeLabelBackground: '#1b1b19',
-      nodeTextColor: '#c9c9c4',
-      fontFamily: FONT,
-      fontSize: '15px',
-    };
-
-    function isDark() {
-      var t = document.documentElement.getAttribute('data-theme');
-      if (t === 'dark') return true;
-      if (t === 'light') return false;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.querySelectorAll('pre.mermaid').forEach(function (el) {
+    try {
+      var svg = renderMermaidSVG(el.textContent.trim(), {
+        bg: 'var(--paper)',
+        fg: 'var(--ink)',
+        accent: 'var(--link)',
+        font: 'iA Writer Duospace',
+        transparent: true,
+      });
+      // The renderer hardcodes a Google Fonts @import; fonts are self-hosted,
+      // so drop it before the SVG hits the DOM.
+      el.innerHTML = svg.replace(/@import url\([^)]*\);/g, '');
+    } catch (e) {
+      // Leave the raw diagram source visible if rendering fails.
     }
-
-    function renderAll(diagrams) {
-      mermaid.initialize({
-        startOnLoad: false,
-        theme: 'base',
-        themeVariables: isDark() ? DARK : LIGHT,
-        flowchart: { padding: 16 },
-      });
-      diagrams.forEach(function (d, i) {
-        mermaid.render('mermaid-svg-' + i + '-' + Date.now(), d.src).then(
-          function (r) {
-            d.el.innerHTML = r.svg;
-          },
-        );
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-      var diagrams = Array.prototype.map.call(
-        document.querySelectorAll('pre.mermaid'),
-        function (el) {
-          return { el: el, src: el.textContent };
-        },
-      );
-      if (!diagrams.length) return;
-
-      renderAll(diagrams);
-
-      var mo = new MutationObserver(function () {
-        renderAll(diagrams);
-      });
-      mo.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['data-theme'],
-      });
-      window
-        .matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener('change', function () {
-          renderAll(diagrams);
-        });
-    });
-  })();
+  });
 </script>
 {{- end }}

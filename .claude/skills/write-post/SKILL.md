@@ -45,7 +45,7 @@ Do NOT add `categories` (taxonomy removed) or any other keys.
 ## Formatting toolkit
 
 - Code blocks with language tags — syntax highlighting (Chroma, dracula) is styled.
-- Mermaid diagrams: `{{</* mermaid */>}} … {{</* /mermaid */>}}` shortcode.
+- Mermaid diagrams: `{{</* mermaid */>}} … {{</* /mermaid */>}}` shortcode. Only flowchart, sequence, state, class, ER, and XY charts render (beautiful-mermaid) — no pie/gantt/mindmap/timeline.
 - Images: put under `static/images/<post-slug>/` and reference as `/images/<post-slug>/name.png`.
 - Tables, footnotes, and blockquotes are styled; use sparingly.
 
