@@ -4,7 +4,7 @@ date: 2026-05-04
 draft: false
 description: "First post — why I'm starting this blog and what to expect."
 dek: "First post — why I'm starting this blog and what I plan to write about."
-tags: ["meta"]
+tags: ["dev"]
 showToc: false
 ---
 
