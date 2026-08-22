@@ -1,24 +1,19 @@
 {{/* Receives: dict "recent" $recent "totalPosts" $totalPosts */}}
 <div class="section-header">
   <span class="section-title">recent writing ✍️</span>
-  <ul class="filter-tabs" role="tablist" aria-label="Filter by tag">
+  <ul class="filter-tabs" aria-label="Filter by tag">
     <li>
-      <button
-        role="tab"
-        aria-selected="true"
-        class="active"
-        data-filter="all"
-      >
+      <button aria-pressed="true" class="active" data-filter="all">
         all
       </button>
     </li>
     <li>
-      <button role="tab" aria-selected="false" data-filter="dev">
+      <button aria-pressed="false" data-filter="dev">
         dev
       </button>
     </li>
     <li>
-      <button role="tab" aria-selected="false" data-filter="network">
+      <button aria-pressed="false" data-filter="network">
         network
       </button>
     </li>

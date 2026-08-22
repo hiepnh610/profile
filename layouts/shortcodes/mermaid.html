@@ -7,9 +7,9 @@
 {{- $src := trim .Inner " \n\t\r" -}}
 {{- $svg := resources.Get (printf "mermaid/%s.svg" (md5 $src)) -}}
 {{- if $svg -}}
-<pre class="mermaid" tabindex="0" role="button" aria-label="Click to enlarge diagram">{{ $svg.Content | safeHTML }}</pre>
+<pre class="mermaid" tabindex="0" title="Click to enlarge diagram">{{ $svg.Content | safeHTML }}</pre>
 {{- else -}}
-<pre class="mermaid" data-render tabindex="0" role="button" aria-label="Click to enlarge diagram">
+<pre class="mermaid" data-render tabindex="0" title="Click to enlarge diagram">
   {{- $src | safeHTML }}
 </pre>
 {{- end -}}

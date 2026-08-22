@@ -9,10 +9,10 @@
 
       filterBtns.forEach((b) => {
         b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
+        b.setAttribute('aria-pressed', 'false');
       });
       btn.classList.add('active');
-      btn.setAttribute('aria-selected', 'true');
+      btn.setAttribute('aria-pressed', 'true');
 
       postItems.forEach((item) => {
         item.style.display =

@@ -54,12 +54,12 @@
   <body>
     {{ partial "topbar.html" (dict "active" "") }}
 
-    <div class="page">
+    <main class="page">
       <p class="err-code">404</p>
       <h1 class="err-title">Page not found</h1>
       <p class="err-desc">This page doesn't exist — it may have moved, or the link is broken.</p>
       <p><a href="/">← Back to home</a> · <a href="/posts/">All posts</a></p>
-    </div>
+    </main>
 
     {{ partial "search-modal.html" . }}
     {{ partial "ui-scripts.html" . }}

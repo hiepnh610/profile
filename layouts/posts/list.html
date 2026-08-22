@@ -19,7 +19,7 @@
   <body>
     {{ partial "topbar.html" (dict "active" "posts") }}
 
-    <div class="page">
+    <main class="page">
       <!-- Page header -->
       <header class="page-header">
         <p class="page-eyebrow">Writing</p>
@@ -30,15 +30,15 @@
       <!-- Section header -->
       <div class="section-header">
         <span class="section-title">{{ len $sorted }} total</span>
-        <ul class="filter-tabs" role="tablist" aria-label="Filter by tag">
+        <ul class="filter-tabs" aria-label="Filter by tag">
           <li>
-            <button role="tab" aria-selected="true" class="active" data-filter="all">all</button>
+            <button aria-pressed="true" class="active" data-filter="all">all</button>
           </li>
           <li>
-            <button role="tab" aria-selected="false" data-filter="dev">dev</button>
+            <button aria-pressed="false" data-filter="dev">dev</button>
           </li>
           <li>
-            <button role="tab" aria-selected="false" data-filter="notes">notes</button>
+            <button aria-pressed="false" data-filter="notes">notes</button>
           </li>
         </ul>
       </div>
@@ -63,7 +63,7 @@
         </li>
         {{- end }}
       </ul>
-    </div>
+    </main>
 
     <!-- Footer -->
     <footer class="site-footer">
@@ -89,10 +89,10 @@
 
           filterBtns.forEach((b) => {
             b.classList.remove('active');
-            b.setAttribute('aria-selected', 'false');
+            b.setAttribute('aria-pressed', 'false');
           });
           btn.classList.add('active');
-          btn.setAttribute('aria-selected', 'true');
+          btn.setAttribute('aria-pressed', 'true');
 
           postItems.forEach((item) => {
             item.style.display =

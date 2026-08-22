@@ -33,6 +33,14 @@
     margin-bottom: 1rem;
   }
 
+  /* Links inside flowing bio text need a non-color cue (WCAG 1.4.1) */
+  .bio a,
+  .site-stats a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
   .bio .q {
     color: var(--muted);
   }

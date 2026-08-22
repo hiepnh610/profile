@@ -15,7 +15,7 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
   <body>
     {{ partial "topbar.html" (dict "active" "home") }}
 
-    <div class="page">
+    <main class="page">
       {{ partial "home/sidebar.html" (dict "totalPosts" $totalPosts "wordsThisYear" $wordsThisYear) }}
 
       <section class="feed" aria-label="Writing feed">
@@ -25,7 +25,7 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
         <hr />
         {{ partial "home/projects.html" . }}
       </section>
-    </div>
+    </main>
 
     {{ partial "home/footer.html" . }}
     {{ partial "search-modal.html" . }}
