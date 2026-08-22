@@ -1,6 +1,6 @@
 ---
 title: "How I run AdGuard Home in Docker"
-date: 2026-08-22T00:00:00Z
+date: 2026-08-22T06:00:00Z
 draft: false
 tags: ["network"]
 description: "A docker-compose file for AdGuard Home, why its ports look strange, and why I run two of them on named volumes."

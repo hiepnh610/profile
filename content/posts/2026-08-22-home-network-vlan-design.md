@@ -1,6 +1,6 @@
 ---
 title: "How I segmented my home network with VLANs on MikroTik"
-date: 2026-08-22T00:00:00Z
+date: 2026-08-22T03:30:00Z
 draft: false
 tags: ["network"]
 description: "Splitting one flat home LAN into six VLANs on a MikroTik router, with a default-deny firewall for guest and IoT traffic."

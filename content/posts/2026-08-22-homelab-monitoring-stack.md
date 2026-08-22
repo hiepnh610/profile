@@ -1,6 +1,6 @@
 ---
 title: "How I monitor my whole homelab from one Grafana dashboard"
-date: 2026-08-22T00:00:00Z
+date: 2026-08-22T11:00:00Z
 draft: false
 tags: ["network"]
 description: "A single docker-compose stack — Prometheus, Loki, Grafana, Alertmanager — watching every host, container, and network device in my homelab."
