@@ -15,7 +15,7 @@ minify:
 params:
   env: production # gates GA4 in layouts/partials/analytics.html
   googleAnalytics: 'G-B7WM914B75'
-  description: "Personal blog — thoughts on software engineering and things I'm building."
+  description: "Notes from a frontend developer moving to backend: Go, Kubernetes, home networking, and a hand-rolled Hugo blog."
   author: 'Hiep Nguyen'
 
 # JSON output enables Fuse.js search (layouts/index.json)
