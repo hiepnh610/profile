@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Writing · {{ site.Title }}</title>
-    <meta name="description" content="All posts by {{ site.Params.author }} — Go and backend learning notes, DevOps, home networking, and notes from building things." />
+    <meta name="description" content="All posts by {{ site.Params.author }}: Go and backend learning notes, DevOps, home networking, and notes from building things." />
     <link rel="icon" href="/images/favicon.svg" />
     <link rel="canonical" href="{{ .Permalink }}" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="/index.xml" />
@@ -22,7 +22,7 @@
       "@id": "{{ .Permalink }}",
       "url": "{{ .Permalink }}",
       "name": "Writing · {{ site.Title }}",
-      "description": "All posts by {{ site.Params.author }} — Go and backend learning notes, DevOps, home networking, and notes from building things.",
+      "description": "All posts by {{ site.Params.author }}: Go and backend learning notes, DevOps, home networking, and notes from building things.",
       "isPartOf": {
         "@type": "WebSite",
         "@id": "{{ site.BaseURL }}",
@@ -49,7 +49,7 @@
       <header class="page-header">
         <p class="page-eyebrow">Writing</p>
         <h1 class="page-title">All Posts</h1>
-        <p class="page-desc">{{ len $posts }} posts — thoughts on software, tools, and building things.</p>
+        <p class="page-desc">{{ len $posts }} posts: thoughts on software, tools, and building things.</p>
       </header>
 
       <!-- Section header -->

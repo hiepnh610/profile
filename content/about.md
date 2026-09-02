@@ -5,7 +5,7 @@ draft: false
 description: "Hiep Nguyen, a frontend developer in Hanoi moving to backend. Learning Go, running Kubernetes and a home lab, and writing it all down."
 ---
 
-Hi, I'm **Hiep Nguyen** — a software engineer based in Hanoi, Vietnam.
+Hi, I'm **Hiep Nguyen**, a software engineer based in Hanoi, Vietnam.
 
 By day I build frontends. Before that I wrote Node.js services, and I've been steadily moving back toward the server side: learning Go, holding a CKAD, and treating my home network as a lab for the infrastructure work I want to do more of. The common thread is wanting to understand the whole stack under a thing, not just the layer I was hired to touch.
 
@@ -17,8 +17,8 @@ This site is the same idea applied to publishing: a [hand-rolled Hugo project]({
 
 - Frontend today, backend next
 - Go, and the habits a JavaScript developer has to unlearn
-- Kubernetes and DevOps — Docker, CI/CD, and the glue between them
-- Home networking and self-hosting — VLANs, DNS, and the occasional 2am firewall mystery
+- Kubernetes and DevOps: Docker, CI/CD, and the glue between them
+- Home networking and self-hosting: VLANs, DNS, and the occasional 2am firewall mystery
 
 ## Elsewhere
 
