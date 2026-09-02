@@ -870,7 +870,8 @@
       "name": "{{ .Title }} · {{ site.Title }}",
       "mainEntity": {
         "@type": "Person",
-        "@id": "{{ site.BaseURL }}#person"
+        "@id": "{{ site.BaseURL }}#person",
+        "name": "{{ site.Params.author }}"
       }
     }
     </script>
