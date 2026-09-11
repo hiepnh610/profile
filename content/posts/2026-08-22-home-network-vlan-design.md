@@ -23,31 +23,7 @@ Before you start down this road, you'll want:
 
 Six VLANs, all trunked over a single physical uplink, split out again on a switch:
 
-{{< mermaid >}}
-flowchart TD
-    WAN((Internet)) -- PPPoE --> RTR[MikroTik router]
-
-    subgraph LAN["LACP bond — 3x1G trunk"]
-        RTR === SW[Managed switch]
-    end
-
-    SW --> V10[VLAN 10 · Management]
-    SW --> V20[VLAN 20 · Wifi Internal]
-    SW --> V30[VLAN 30 · CCTV]
-    SW --> V40[VLAN 40 · Core / DNS]
-    SW --> V50[VLAN 50 · Wifi Guest]
-    SW --> V60[VLAN 60 · IoT]
-
-    V10 --> INF[Switches + AP controllers]
-    V20 --> TRUST[Trusted wifi clients]
-    V30 --> CAM[Cameras + NVR]
-    V40 --> DNS[AdGuard resolvers x2]
-    V50 --> GUEST[Guest devices]
-    V60 --> IOT[Smart plugs, sensors, TVs]
-
-    classDef isolated fill:#4a2626,stroke:#b35c5c,color:#f3dede
-    class V50,V60,GUEST,IOT isolated
-{{< /mermaid >}}
+{{< archify "vlan-topology" >}}
 
 | VLAN | Subnet | Purpose |
 |------|--------|---------|

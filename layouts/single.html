@@ -1011,6 +1011,10 @@
     </footer>
 
     {{ partial "search-modal.html" . }}
+    {{- if .HasShortcode "archify" }}
+    {{ partial "diagram-modal.html" . }}
+    {{ partial "archify-styles.html" . }}
+    {{- end }}
 
     <dialog id="img-modal" aria-label="Enlarged image">
       <div class="img-modal-box">

@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Home network VLAN layout",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "hidden"
+    },
+    "viewBox": [
+      760,
+      450
+    ]
+  },
+  "components": [
+    {
+      "id": "internet",
+      "type": "external",
+      "label": "Internet",
+      "sublabel": "ISP fibre",
+      "pos": [
+        290,
+        30
+      ],
+      "size": [
+        180,
+        60
+      ]
+    },
+    {
+      "id": "router",
+      "type": "security",
+      "label": "MikroTik router",
+      "sublabel": "firewall + PPPoE",
+      "pos": [
+        290,
+        150
+      ],
+      "size": [
+        180,
+        60
+      ]
+    },
+    {
+      "id": "switch",
+      "type": "backend",
+      "label": "Managed switch",
+      "sublabel": "802.1Q trunk",
+      "pos": [
+        290,
+        270
+      ],
+      "size": [
+        180,
+        60
+      ]
+    },
+    {
+      "id": "v10",
+      "type": "cloud",
+      "label": "VLAN 10 Management",
+      "sublabel": "switches, AP controllers",
+      "pos": [
+        30,
+        150
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "v20",
+      "type": "cloud",
+      "label": "VLAN 20 Wifi Internal",
+      "sublabel": "trusted wifi clients",
+      "pos": [
+        30,
+        250
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "v30",
+      "type": "cloud",
+      "label": "VLAN 30 CCTV",
+      "sublabel": "cameras + NVR",
+      "pos": [
+        30,
+        350
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "v40",
+      "type": "database",
+      "label": "VLAN 40 Core / DNS",
+      "sublabel": "AdGuard resolvers x2",
+      "pos": [
+        540,
+        150
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "v50",
+      "type": "security",
+      "label": "VLAN 50 Wifi Guest",
+      "sublabel": "isolated guest devices",
+      "pos": [
+        540,
+        250
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "v60",
+      "type": "security",
+      "label": "VLAN 60 IoT",
+      "sublabel": "plugs, sensors, TVs",
+      "pos": [
+        540,
+        350
+      ],
+      "size": [
+        190,
+        64
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "LACP bond: 3x1G",
+      "wraps": [
+        "router",
+        "switch"
+      ],
+      "pad": 16
+    }
+  ],
+  "connections": [
+    {
+      "id": "wan",
+      "from": "internet",
+      "to": "router",
+      "label": "PPPoE",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 24
+    },
+    {
+      "id": "trunk",
+      "from": "router",
+      "to": "switch",
+      "label": "tagged trunk",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 24
+    },
+    {
+      "id": "sw-v10",
+      "from": "switch",
+      "to": "v10",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "sw-v20",
+      "from": "switch",
+      "to": "v20",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "sw-v30",
+      "from": "switch",
+      "to": "v30",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "sw-v40",
+      "from": "switch",
+      "to": "v40",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "sw-v50",
+      "from": "switch",
+      "to": "v50",
+      "label": "no LAN access",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "left",
+      "labelAt": [
+        635,
+        232
+      ]
+    },
+    {
+      "id": "sw-v60",
+      "from": "switch",
+      "to": "v60",
+      "label": "no LAN access",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "left",
+      "labelAt": [
+        635,
+        332
+      ]
+    }
+  ]
+}

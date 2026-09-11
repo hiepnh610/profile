@@ -13,6 +13,7 @@ No backend, no JS framework, no bundler, no theme — every template is hand-wri
 hugo server -D                            # local dev (includes drafts)
 hugo --minify                             # production build → /public/
 hugo new posts/YYYY-MM-DD-slug.md         # new post from archetype
+npm run prerender                         # regenerate diagram SVGs from diagrams/*.json after editing one
 ```
 
 CI (`.github/workflows/deploy.yml`) auto-builds and deploys on every push to `master`.
@@ -35,6 +36,7 @@ Husky runs `gitleaks protect --staged` on every local commit. Requires `gitleaks
 | Single post page (also renders /about/) | `layouts/single.html` |
 | Posts archive + tag filter | `layouts/posts/list.html` |
 | Tags index (/tags/) + per-tag pages | `layouts/taxonomy.html` · `layouts/term.html` |
+| Diagram specs (Archify) + generated SVGs | `diagrams/*.json` · `assets/archify/` |
 | New post template | `archetypes/posts.md` |
 | CI/CD deploy | `.github/workflows/deploy.yml` |
 
@@ -72,7 +74,11 @@ Used by home head, `layouts/single.html`, and `layouts/posts/list.html` — edit
 `layouts/single.html` renders ALL single pages (posts, /about/) — not just posts. `layouts/posts/list.html` renders the archive; `layouts/taxonomy.html` / `layouts/term.html` render /tags/ and /tags/<tag>/; `layouts/404.html` is the GitHub Pages not-found page. All are standalone documents composing the shared partials above.
 
 ### Shortcodes
-`layouts/shortcodes/mermaid.html` — renders Mermaid diagrams in posts via [beautiful-mermaid](https://github.com/lukilabs/beautiful-mermaid). Diagrams are **pre-rendered at authoring time**: after adding/editing a `{{</* mermaid */>}}` block, run `npm run prerender` (= `node tools/prerender-mermaid.mjs`) and commit the generated `assets/mermaid/<md5>.svg` — the shortcode inlines it (zero JS shipped). If the hash doesn't match (forgot to run it), the block falls back to client-side rendering via the self-hosted 1.6 MB `/static/js/beautiful-mermaid.min.js`, so nothing breaks — but always run the prerender. Supported diagram types ONLY: flowchart, sequence, state, class, ER, XY chart — no pie/gantt/mindmap/timeline/gitgraph. Colors are CSS vars from the site design tokens (`--paper`/`--ink`), so inlined diagrams follow theme toggles with no re-render.
+`layouts/shortcodes/archify.html` — the only diagram shortcode. Inlines a pre-rendered SVG by name: `{{</* archify "vlan-topology" */>}}` → `assets/archify/vlan-topology.svg`. Diagrams are authored as Archify JSON specs in `diagrams/<name>.<type>.json` (type = architecture | workflow | sequence | dataflow | lifecycle); `npm run prerender` runs `tools/prerender-archify.mjs`, which calls the Archify Claude Code skill (`~/.claude/skills/archify`, override with `ARCHIFY_DIR`) with `deliver --quality showcase`, extracts the SVG, strips the viewer grid and namespaces ids, and writes the asset — commit the SVG. Archify's composition checks must all pass or the script fails; a missing SVG fails the Hugo build. The SVG carries no colors: `partials/archify-styles.html` maps Archify's semantic classes (`c-*`, `t-*`, `a-*`, `m-*`, `s-*`) onto site tokens plus Archify's own light/dark hues, so diagrams follow the theme toggle with zero JS. Author specs with `meta.viewBox` around 760 wide (the column is 44rem) and `meta.legend.mode: "hidden"`. Use the `/archify` skill to author or repair specs.
+
+The shortcode emits only the `<pre class="diagram archify">` block. Its once-per-page support (`partials/diagram-modal.html` = `pre.diagram` styles + click-to-enlarge `<dialog>`, and `partials/archify-styles.html`) is included by `layouts/single.html` guarded with `.HasShortcode` — never emit page-level assets from inside a shortcode with a Scratch flag: `layouts/index.json` renders every page's content too, so the flag gets consumed by the wrong render.
+
+Mermaid was removed (Sep 2026) — every diagram is an Archify spec now; there is no client-side diagram renderer.
 
 ### Third-party policy
 Everything is self-hosted (`/static/fonts/`, `/static/js/`) — no CDN, no Google Fonts. The ONLY external requests are GA4 (`googletagmanager.com`, in `layouts/partials/analytics.html`) and the Cloudflare Web Analytics beacon (`static.cloudflareinsights.com`, injected at the edge by Cloudflare — not in this repo). Both are allowlisted in the CSP, which is set via a Cloudflare Transform Rule (also not in this repo) — adding any new external origin requires updating that CSP too. Icons are inline SVG via `layouts/partials/icon.html` — do not add icon fonts.

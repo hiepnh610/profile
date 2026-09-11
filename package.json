@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "prepare": "husky",
-    "prerender": "node tools/prerender-mermaid.mjs"
+    "prerender": "node tools/prerender-archify.mjs"
   },
   "devDependencies": {
     "husky": "^9.1.7"

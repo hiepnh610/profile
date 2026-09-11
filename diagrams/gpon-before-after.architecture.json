@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "GPON uplink before and after the SFP stick",
+    "quality_profile": "showcase",
+    "legend": { "mode": "hidden" },
+    "viewBox": [760, 340]
+  },
+  "components": [
+    { "id": "olt-before", "type": "external", "label": "Viettel OLT", "sublabel": "ALU / Nokia, GPON", "pos": [40, 50], "size": [180, 60] },
+    { "id": "ont", "type": "cloud", "label": "ISP ONT", "sublabel": "bridge mode", "pos": [290, 50], "size": [180, 60] },
+    { "id": "rtr-before", "type": "security", "label": "MikroTik", "sublabel": "PPPoE on ether1 / VLAN 35", "pos": [540, 50], "size": [180, 60] },
+    { "id": "olt-after", "type": "external", "label": "Viettel OLT", "sublabel": "ALU / Nokia, GPON", "pos": [40, 220], "size": [180, 60] },
+    { "id": "stick", "type": "backend", "label": "DFP-34X-2C2", "sublabel": "GPON SFP, bridge only", "pos": [290, 220], "size": [180, 60] },
+    { "id": "rtr-after", "type": "security", "label": "MikroTik", "sublabel": "PPPoE on sfp1 / VLAN 35", "pos": [540, 220], "size": [180, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Before", "wraps": ["olt-before", "ont", "rtr-before"], "pad": 18 },
+    { "kind": "region", "label": "After", "wraps": ["olt-after", "stick", "rtr-after"], "pad": 18 }
+  ],
+  "connections": [
+    { "id": "fibre-before", "from": "olt-before", "to": "ont", "label": "fibre", "fromSide": "right", "toSide": "left" },
+    { "id": "ethernet", "from": "ont", "to": "rtr-before", "label": "ethernet", "fromSide": "right", "toSide": "left" },
+    { "id": "fibre-after", "from": "olt-after", "to": "stick", "label": "fibre", "fromSide": "right", "toSide": "left" },
+    { "id": "cage", "from": "stick", "to": "rtr-after", "label": "SFP cage", "variant": "emphasis", "fromSide": "right", "toSide": "left" }
+  ]
+}

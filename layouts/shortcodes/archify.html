@@ -1,0 +1,15 @@
+{{- /* Inline a diagram pre-rendered from an Archify spec. Usage in a post:
+       archify shortcode with one positional arg, the diagram name, e.g.
+       "vlan-topology"  →  assets/archify/vlan-topology.svg
+     Specs live in diagrams/<name>.<type>.json; run `npm run prerender` after
+     adding or editing one and commit the SVG (see tools/prerender-archify.mjs).
+     The SVG carries no colors of its own: partials/archify-styles.html (included
+     by single.html via .HasShortcode) maps Archify's semantic classes onto the
+     site tokens, so the diagram follows the theme toggle without a re-render.
+     A missing SVG fails the build on purpose. */ -}}
+{{- $name := .Get 0 -}}
+{{- $svg := resources.Get (printf "archify/%s.svg" $name) -}}
+{{- if not $svg -}}
+  {{- errorf "archify shortcode: assets/archify/%s.svg not found — run `npm run prerender` (%s)" $name .Position -}}
+{{- end -}}
+<pre class="diagram archify" tabindex="0" title="Click to enlarge diagram">{{ $svg.Content | safeHTML }}</pre>

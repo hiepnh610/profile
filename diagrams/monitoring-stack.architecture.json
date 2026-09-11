@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Homelab monitoring stack",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "hidden"
+    },
+    "viewBox": [
+      760,
+      520
+    ]
+  },
+  "components": [
+    {
+      "id": "logs",
+      "type": "frontend",
+      "label": "Journald + containers",
+      "sublabel": "Alloy",
+      "pos": [
+        30,
+        40
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "node",
+      "type": "frontend",
+      "label": "Linux hosts",
+      "sublabel": "node_exporter",
+      "pos": [
+        30,
+        130
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "docker",
+      "type": "frontend",
+      "label": "Containers",
+      "sublabel": "cAdvisor",
+      "pos": [
+        30,
+        220
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "net",
+      "type": "frontend",
+      "label": "Switches, APs, router",
+      "sublabel": "SNMP",
+      "pos": [
+        30,
+        310
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "probes",
+      "type": "frontend",
+      "label": "DNS, sites, ports",
+      "sublabel": "Blackbox probes",
+      "pos": [
+        30,
+        400
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "loki",
+      "type": "database",
+      "label": "Loki",
+      "sublabel": "log store",
+      "pos": [
+        295,
+        40
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "prom",
+      "type": "database",
+      "label": "Prometheus",
+      "sublabel": "metrics TSDB",
+      "pos": [
+        295,
+        265
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "grafana",
+      "type": "backend",
+      "label": "Grafana",
+      "sublabel": "dashboards",
+      "pos": [
+        560,
+        100
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "am",
+      "type": "security",
+      "label": "Alertmanager",
+      "sublabel": "routing + silences",
+      "pos": [
+        560,
+        350
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "tg",
+      "type": "external",
+      "label": "Telegram",
+      "sublabel": "bot notifications",
+      "pos": [
+        560,
+        440
+      ],
+      "size": [
+        170,
+        60
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Sources",
+      "wraps": [
+        "node",
+        "docker",
+        "net",
+        "probes",
+        "logs"
+      ],
+      "pad": 14
+    }
+  ],
+  "connections": [
+    {
+      "id": "node-prom",
+      "from": "node",
+      "to": "prom",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "docker-prom",
+      "from": "docker",
+      "to": "prom",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "net-prom",
+      "from": "net",
+      "to": "prom",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "probes-prom",
+      "from": "probes",
+      "to": "prom",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "logs-loki",
+      "from": "logs",
+      "to": "loki",
+      "label": "push",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "prom-grafana",
+      "from": "prom",
+      "to": "grafana",
+      "label": "PromQL",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "loki-grafana",
+      "from": "loki",
+      "to": "grafana",
+      "label": "LogQL",
+      "fromSide": "right",
+      "toSide": "top"
+    },
+    {
+      "id": "prom-am",
+      "from": "prom",
+      "to": "am",
+      "label": "rule breached",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "left"
+    },
+    {
+      "id": "am-tg",
+      "from": "am",
+      "to": "tg",
+      "label": "critical / warning",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 24
+    }
+  ]
+}

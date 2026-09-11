@@ -23,18 +23,7 @@ Before you start, you'll want:
 
 Nothing changes about how a device makes a DNS query — it just now asks AdGuard Home instead of the ISP or `8.8.8.8`, because that's what DHCP hands out. AdGuard Home decides, and either forwards the query upstream or kills it on the spot:
 
-{{< mermaid >}}
-flowchart TD
-    DEV[Laptop, phone, TV, IoT device] -->|DNS query| ADG1[AdGuard Home primary]
-    DEV -.->|if primary is unreachable| ADG2[AdGuard Home secondary]
-
-    ADG1 -->|allowed domain| UP[Upstream resolver, DNS-over-HTTPS]
-    ADG1 -->|ad / tracker domain| DROP[NXDOMAIN, no forward]
-    UP --> WAN((Internet))
-
-    classDef blocked fill:#4a2626,stroke:#b35c5c,color:#f3dede
-    class DROP blocked
-{{< /mermaid >}}
+{{< archify "adguard-dns-flow" >}}
 
 The device never talks to the internet's real resolvers directly, and it never sees the blocklists — it just gets an answer, or doesn't. Everything past this diagram is what that primary box is actually made of.
 

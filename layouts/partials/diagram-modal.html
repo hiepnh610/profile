@@ -1,0 +1,102 @@
+{{- /* Diagram block styles + click-to-enlarge <dialog> for the `archify`
+     shortcode. Included ONCE by layouts/single.html when the page uses the
+     shortcode (`.HasShortcode`) — never from inside a shortcode: page content
+     is rendered for more than one output format and a Scratch "emit once"
+     flag would drop the block from the HTML render. */ -}}
+<style>
+  pre.diagram {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+    overflow-x: auto;
+    cursor: zoom-in;
+  }
+
+  .diagram svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  #diagram-modal {
+    border: 1px solid var(--rule);
+    padding: 0;
+    width: min(1100px, calc(100vw - 32px));
+    max-height: 90vh;
+    background: var(--paper);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.14);
+    margin: auto;
+  }
+
+  #diagram-modal::backdrop {
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+
+  .diagram-modal-box {
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+  }
+
+  #diagram-modal-close {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 14px 20px 0;
+    cursor: pointer;
+  }
+
+  #diagram-modal-close:hover {
+    color: var(--ink);
+  }
+
+  #diagram-modal-body {
+    overflow: auto;
+    padding: 12px 32px 32px;
+  }
+
+  #diagram-modal-body svg {
+    width: 100%;
+    height: auto;
+  }
+</style>
+<dialog id="diagram-modal" aria-label="Enlarged diagram">
+  <div class="diagram-modal-box">
+    <button type="button" id="diagram-modal-close" aria-label="Close">✕ Close</button>
+    <div id="diagram-modal-body"></div>
+  </div>
+</dialog>
+<script type="module">
+  var modal = document.getElementById('diagram-modal');
+  var modalBody = document.getElementById('diagram-modal-body');
+
+  document.querySelectorAll('pre.diagram').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var svg = el.querySelector('svg');
+      if (!svg) return;
+      modalBody.innerHTML = svg.outerHTML;
+      modal.showModal();
+    });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        el.click();
+      }
+    });
+  });
+
+  document.getElementById('diagram-modal-close').addEventListener('click', function () {
+    modal.close();
+  });
+
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) modal.close();
+  });
+</script>

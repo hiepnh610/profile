@@ -23,30 +23,7 @@ Before you start, you'll want:
 
 Every host runs a small agent that turns local reality into metrics or logs. Prometheus and Loki pull that data in on a timer and keep history. Grafana reads both to draw dashboards, and a separate rules engine watches the same data for anything that crosses a threshold:
 
-{{< mermaid >}}
-flowchart LR
-    subgraph Sources
-        NODE[Linux hosts<br/>node_exporter]
-        DOCK[Containers<br/>cAdvisor]
-        NET[Switches, APs, router<br/>SNMP]
-        SVC[DNS, sites, ports<br/>Blackbox probes]
-        LOG[Journald + containers<br/>Alloy]
-    end
-
-    NODE --> PROM[Prometheus]
-    DOCK --> PROM
-    NET --> PROM
-    SVC --> PROM
-    LOG --> LOKI[Loki]
-
-    PROM --> GRAF[Grafana]
-    LOKI --> GRAF
-    PROM -->|rule breached| AM[Alertmanager]
-    AM -->|critical / warning| TG[Telegram]
-
-    classDef store fill:#26364a,stroke:#5c8bb3,color:#dee7f3
-    class PROM,LOKI store
-{{< /mermaid >}}
+{{< archify "monitoring-stack" >}}
 
 Nothing on the right side of that diagram talks directly to a device — every source is either a small process running next to the thing it watches (node_exporter, cAdvisor, Alloy) or a poller that reaches out on the network's behalf (SNMP exporter for switches, Blackbox exporter for anything you just want to ping or curl). Prometheus and Loki don't care which; they just scrape whatever's configured and keep it.
 

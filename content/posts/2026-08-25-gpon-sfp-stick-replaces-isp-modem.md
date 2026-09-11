@@ -20,15 +20,7 @@ This post is the field-by-field version of what I did. The sources I leaned on, 
 
 ## Before and after
 
-{{< mermaid >}}
-flowchart LR
-    subgraph before["Before"]
-        OLT1((OLT)) -- fibre --> ONT[ISP ONT<br/>bridge mode] -- ethernet --> RTR1[MikroTik<br/>PPPoE]
-    end
-    subgraph after["After"]
-        OLT2((OLT)) -- fibre --> SFP[DFP-34X-2C2<br/>in SFP cage] --- RTR2[MikroTik<br/>PPPoE]
-    end
-{{< /mermaid >}}
+{{< archify "gpon-before-after" >}}
 
 The router barely changes. It still runs a PPPoE client on a VLAN 35 interface; that VLAN now hangs off `sfp1` instead of an Ethernet port. The difference is that the "bridge" in the middle is now something I own and configure, not something the ISP has to be talked into.
 

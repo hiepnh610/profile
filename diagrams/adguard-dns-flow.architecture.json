@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "AdGuard Home DNS query flow",
+    "quality_profile": "showcase",
+    "legend": { "mode": "hidden" },
+    "viewBox": [760, 480]
+  },
+  "components": [
+    { "id": "device", "type": "frontend", "label": "LAN device", "sublabel": "laptop, phone, TV, IoT", "pos": [290, 30], "size": [180, 60] },
+    { "id": "adg1", "type": "backend", "label": "AdGuard Home primary", "sublabel": "resolver + blocklists", "pos": [130, 160], "size": [200, 64] },
+    { "id": "adg2", "type": "backend", "label": "AdGuard Home secondary", "sublabel": "same config, second host", "pos": [450, 160], "size": [200, 64] },
+    { "id": "upstream", "type": "cloud", "label": "Upstream resolver", "sublabel": "DNS-over-HTTPS", "pos": [40, 300], "size": [190, 64] },
+    { "id": "drop", "type": "security", "label": "NXDOMAIN", "sublabel": "blocked, never forwarded", "pos": [290, 300], "size": [190, 64] },
+    { "id": "internet", "type": "external", "label": "Internet", "sublabel": "public DNS over HTTPS", "pos": [40, 410], "size": [190, 60] }
+  ],
+  "connections": [
+    { "id": "query", "from": "device", "to": "adg1", "label": "DNS query", "variant": "emphasis", "fromSide": "bottom", "toSide": "top" },
+    { "id": "failover", "from": "device", "to": "adg2", "label": "if primary is unreachable", "variant": "dashed", "fromSide": "bottom", "toSide": "top" },
+    { "id": "allowed", "from": "adg1", "to": "upstream", "label": "allowed domain", "variant": "emphasis", "fromSide": "bottom", "toSide": "top" },
+    { "id": "blocked", "from": "adg1", "to": "drop", "label": "ad / tracker domain", "variant": "security", "fromSide": "bottom", "toSide": "top" },
+    { "id": "doh", "from": "upstream", "to": "internet", "label": "HTTPS :443", "fromSide": "bottom", "toSide": "top", "labelDy": 24 }
+  ]
+}
