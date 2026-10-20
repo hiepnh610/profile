@@ -1,0 +1,14 @@
+# {{ site.Title }}
+
+> {{ site.Params.description }}
+
+## About
+- [About]({{ "about/" | absURL }}): who I am and what this site is
+
+## Posts
+{{ range where site.RegularPages "Section" "posts" -}}
+- [{{ .Title }}]({{ .Permalink }}): {{ .Description | default .Params.dek }}
+{{ end }}
+## Optional
+- [Tags]({{ "tags/" | absURL }})
+- [Full-text index (JSON)]({{ "index.json" | absURL }})
