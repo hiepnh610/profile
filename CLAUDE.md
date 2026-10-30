@@ -51,7 +51,6 @@ Orchestrates partials from `layouts/partials/home/`:
 | `sidebar.html` | Intro header: bio + one-line stats | `dict "totalPosts" "wordsThisYear"` |
 | `featured-card.html` | Flat featured-post block | `dict "featured"` |
 | `posts-list.html` | Recent 8 posts + tag filter tabs | `dict "recent" "totalPosts"` |
-| `projects.html` | Side-projects section | `.` |
 | `footer.html` | Site footer | `.` |
 | `scripts.html` | Tag filter JS + includes `ui-scripts.html` | `.` |
 

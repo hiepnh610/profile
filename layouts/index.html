@@ -22,8 +22,6 @@ $postsThisYear := where $posts "Date.Year" $currentYear -}} {{- $wordsThisYear
         {{ partial "home/featured-card.html" (dict "featured" $featured) }}
         <hr />
         {{ partial "home/posts-list.html" (dict "recent" $recent "totalPosts" $totalPosts) }}
-        <hr />
-        {{ partial "home/projects.html" . }}
       </section>
     </main>
 
