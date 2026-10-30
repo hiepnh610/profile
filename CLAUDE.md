@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Hugo v0.161.1 static blog deployed to GitHub Pages at hoanghiep.dev.
+Hugo v0.169.0 static blog deployed to GitHub Pages at hoanghiep.dev.
 No backend, no JS framework, no bundler, no theme — every template is hand-written in `/layouts/`; `hugo --minify` → `/public/`.
 
 ## Essential Commands
